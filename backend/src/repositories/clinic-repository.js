@@ -2,9 +2,18 @@ import Clinic from "../models/clinic.js";
 
 const clinicRepo = {
     findClinicByUsername: async (username) => {
-        return await Clinic.findOne({
+        return await Clinic.findAll({
             where: {
-                name: username
+                username: username
+            }
+        });
+    },
+
+    findClinicByUsernamePassword: async (username, password) => {
+        return await Clinic.findAll({
+            where: {
+                username: username,
+                password: password
             }
         });
     },

@@ -4,7 +4,16 @@ const customerRepo = {
     findCustomerByUsername: async (username) => {
         return await Customer.findOne({
             where: {
-                name: username
+                username: username
+            }
+        });
+    },
+
+    findCustomerByUsernamePassword: async (username, password) => {
+        return await Customer.findOne({
+            where: {
+                username: username,
+                password: password
             }
         });
     },

@@ -22,37 +22,7 @@ Clinic.init({
             // Storing passwords in plaintext in the database is terrible.
             // Hashing the value with an appropriate cryptographic hash function is better.
             this.setDataValue('password', hash(this.username + value));
-        },
-        /*validate: {
-            isValidPassword(value){
-                let error = false;
-                let message = '';
-                if (value.length < 7) {
-                    message += "Your password needs a minimum of seven characters.";
-                    error = true;
-                }
-                if (value.length > 14) {
-                    message += "Your password needs a maximum of fourteen characters.";
-                    error = true;
-                }
-                if (value.search(/[a-z]/) == -1) {
-                    message += "Your password needs at least one lower case letter.";
-                    error = true;
-                }
-                if (value.search(/[A-Z]/) == -1) {
-                    message += "Your password needs at least one upper case letter.";
-                    error = true;
-                }
-                if (value.search (/[0-9]/) == -1) {
-                    message += "Your password needs a number.";
-                    error = true;
-                }
-
-                if (error) {
-                    throw new Error(message);
-                }
-            }
-        }*/
+        }
     },
     phone: {
         type: DataTypes.STRING,

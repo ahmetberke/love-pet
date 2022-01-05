@@ -5,6 +5,10 @@ const clinicService = {
         return await clinicRepo.findClinicByUsername(username);
     },
 
+    findClinicByUsernamePassword: async (username, password) => {
+        return await clinicRepo.findClinicByUsernamePassword(username, password);
+    },
+
     findClinic: async (clinicId) => {
         return await clinicRepo.findClinic(clinicId);
     },
