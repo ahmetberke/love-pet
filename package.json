@@ -1,0 +1,22 @@
+{
+  "name": "love-path",
+  "version": "1.0.0",
+  "description": "management tool for pet clinics",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\" "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aykut-bozkurt/love-pet.git"
+  },
+  "author": "aykut bozkurt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aykut-bozkurt/love-pet/issues"
+  },
+  "homepage": "https://github.com/aykut-bozkurt/love-pet#readme",
+  "devDependencies": {
+    "concurrently": "^7.0.0"
+  }
+}
