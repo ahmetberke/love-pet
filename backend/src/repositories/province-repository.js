@@ -2,23 +2,32 @@ import Province from "../models/province.js";
 
 const provinceRepo = {
     findProvince: async (provinceId) => {
-        return await Province.findByPk({
-            where: {
-                id: provinceId
-            }
-        });
+        return await Province.findByPk(provinceId);
+    },
+
+    findProvinces: async () => {
+        return await Province.findAll();
     },
 
     createProvince: async (province) => {
         return await Province.create(province);
     },
 
-    deleteProvince: async (province) => {
-        return await province.destroy();
+    deleteProvince: async (provinceId) => {
+        return await Province.destroy({
+            where: {
+                id: provinceId
+            }
+        });
     },
 
-    updateProvince: async (province) => {
-        return await province.save();
+    updateProvince: async (provinceId, province) => {
+        return await Province.update(province, {
+            where: {
+                id: provinceId
+            },
+            returning: true
+        });
     }
 };
 

@@ -13,13 +13,13 @@ export const verifyToken = (req, res, next) => {
             return res.status(403).send("A token is required for authentication");
         }
 
-        const decoded = jwt.verify(token, config.TOKEN_KEY);
+        const decoded = jwt.verify(token, config.token_key);
         req.user = decoded;
     } catch (err) {
         return res.status(401).send("Invalid Token");
     }
 
-    return next();
+    next();
 }
 
 export const validatePassword = (value) => {

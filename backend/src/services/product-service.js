@@ -5,16 +5,20 @@ const productService = {
         return await productRepo.findProduct(productId);
     },
 
+    findProducts: async () => {
+        return await productRepo.findProducts();
+    },
+
     createProduct: async (product) => {
         return await productRepo.createProduct(product);
     },
 
-    deleteProduct: async (product) => {
-        return await productRepo.deleteProduct(product);
+    deleteProduct: async (productId) => {
+        return await productRepo.deleteProduct(productId);
     },
 
-    updateProduct: async (product) => {
-        return await productRepo.updateProduct(product);
+    updateProduct: async (productId, product) => {
+        return await productRepo.updateProduct(productId, product);
     }
 };
 

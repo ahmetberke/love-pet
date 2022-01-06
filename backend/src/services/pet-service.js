@@ -5,16 +5,20 @@ const petService = {
         return await petRepo.findPet(petId);
     },
 
+    findPets: async () => {
+        return await petRepo.findPets();
+    },
+
     createPet: async (pet) => {
         return await petRepo.createPet(pet);
     },
 
-    deletePet: async (pet) => {
-        return await petRepo.deletePet(pet);
+    deletePet: async (petId) => {
+        return await petRepo.deletePet(petId);
     },
 
-    updatePet: async (pet) => {
-        return await petRepo.updatePet(pet);
+    updatePet: async (petId, pet) => {
+        return await petRepo.updatePet(petId, pet);
     }
 };
 

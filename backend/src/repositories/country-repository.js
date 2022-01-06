@@ -2,23 +2,32 @@ import Country from "../models/country.js";
 
 const countryRepo = {
     findCountry: async (countryId) => {
-        return await Country.findByPk({
-            where: {
-                id: countryId
-            }
-        });
+        return await Country.findByPk(countryId);
+    },
+
+    findCountries: async () => {
+        return await Country.findAll();
     },
 
     createCountry: async (country) => {
         return await Country.create(country);
     },
 
-    deleteCountry: async (country) => {
-        return await country.destroy();
+    deleteCountry: async (countryId) => {
+        return await Country.destroy({
+            where: {
+                id: countryId
+            }
+        });
     },
 
-    updateCountry: async (country) => {
-        return await country.save();
+    updateCountry: async (countryId, country) => {
+        return await Country.update(country, {
+            where: {
+                id: countryId
+            },
+            returning: true
+        });
     }
 };
 

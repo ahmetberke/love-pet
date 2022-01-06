@@ -5,16 +5,20 @@ const commentService = {
         return await commentRepo.findComment(commentId);
     },
 
+    findComments: async () => {
+        return await commentRepo.findComments();
+    },
+
     createComment: async (comment) => {
         return await commentRepo.createComment(comment);
     },
 
-    deleteComment: async (comment) => {
-        return await commentRepo.deleteComment(comment);
+    deleteComment: async (commentId) => {
+        return await commentRepo.deleteComment(commentId);
     },
 
-    updateComment: async (comment) => {
-        return await commentRepo.updateComment(comment);
+    updateComment: async (commentId, comment) => {
+        return await commentRepo.updateComment(commentId, comment);
     }
 };
 

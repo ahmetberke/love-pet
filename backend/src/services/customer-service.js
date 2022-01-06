@@ -9,6 +9,10 @@ const customerService = {
         return await customerRepo.findCustomerByUsernamePassword(username, password);
     },
 
+    findCustomers: async () => {
+        return await customerRepo.findCustomers();
+    },
+
     findCustomer: async (customerId) => {
         return await customerRepo.findCustomer(customerId);
     },
@@ -17,12 +21,12 @@ const customerService = {
         return await customerRepo.createCustomer(customer);
     },
 
-    deleteCustomer: async (customer) => {
-        return await customerRepo.deleteCustomer(customer);
+    deleteCustomer: async (customerId) => {
+        return await customerRepo.deleteCustomer(customerId);
     },
 
-    updateCustomer: async (customer) => {
-        return await customerRepo.updateCustomer(customer);
+    updateCustomer: async (customerId, customer) => {
+        return await customerRepo.updateCustomer(customerId, customer);
     }
 };
 

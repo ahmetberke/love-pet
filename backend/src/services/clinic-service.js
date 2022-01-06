@@ -9,6 +9,10 @@ const clinicService = {
         return await clinicRepo.findClinicByUsernamePassword(username, password);
     },
 
+    findClinics: async () => {
+        return await clinicRepo.findClinics();
+    },
+
     findClinic: async (clinicId) => {
         return await clinicRepo.findClinic(clinicId);
     },
@@ -17,12 +21,12 @@ const clinicService = {
         return await clinicRepo.createClinic(clinic);
     },
 
-    deleteClinic: async (clinic) => {
-        return await clinicRepo.deleteClinic(clinic);
+    deleteClinic: async (clinicId) => {
+        return await clinicRepo.deleteClinic(clinicId);
     },
 
-    updateClinic: async (clinic) => {
-        return await clinicRepo.updateClinic(clinic);
+    updateClinic: async (clinicId, clinic) => {
+        return await clinicRepo.updateClinic(clinicId, clinic);
     }
 };
 

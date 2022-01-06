@@ -5,16 +5,20 @@ const breedService = {
         return await breedRepo.findBreed(breedId);
     },
 
+    findBreeds: async () => {
+        return await breedRepo.findBreeds();
+    },
+
     createBreed: async (breed) => {
         return await breedRepo.createBreed(breed);
     },
 
-    deleteBreed: async (breed) => {
-        return await breedRepo.deleteBreed(breed);
+    deleteBreed: async (breedId) => {
+        return await breedRepo.deleteBreed(breedId);
     },
 
-    updateBreed: async (breed) => {
-        return await breedRepo.updateBreed(breed);
+    updateBreed: async (breedId, breed) => {
+        return await breedRepo.updateBreed(breedId, breed);
     }
 };
 

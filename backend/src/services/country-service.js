@@ -5,16 +5,20 @@ const countryService = {
         return await countryRepo.findCountry(countryId);
     },
 
+    findCountries: async () => {
+        return await countryRepo.findCountries();
+    },
+
     createCountry: async (country) => {
         return await countryRepo.createCountry(country);
     },
 
-    deleteCountry: async (country) => {
-        return await countryRepo.deleteCountry(country);
+    deleteCountry: async (countryId) => {
+        return await countryRepo.deleteCountry(countryId);
     },
 
-    updateCountry: async (country) => {
-        return await countryRepo.updateCountry(country);
+    updateCountry: async (countryId, country) => {
+        return await countryRepo.updateCountry(countryId, country);
     }
 };
 

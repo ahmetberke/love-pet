@@ -5,16 +5,20 @@ const orderService = {
         return await orderRepo.findOrder(orderId);
     },
 
+    findOrders: async () => {
+        return await orderRepo.findOrders();
+    },
+
     createOrder: async (order) => {
         return await orderRepo.createOrder(order);
     },
 
-    deleteOrder: async (order) => {
-        return await orderRepo.deleteOrder(order);
+    deleteOrder: async (orderId) => {
+        return await orderRepo.deleteOrder(orderId);
     },
 
-    updateOrder: async (order) => {
-        return await orderRepo.updateOrder(order);
+    updateOrder: async (orderId, order) => {
+        return await orderRepo.updateOrder(orderId, order);
     }
 };
 

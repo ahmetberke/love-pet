@@ -5,16 +5,20 @@ const cityService = {
         return await cityRepo.findCity(cityId);
     },
 
+    findCities: async () => {
+        return await cityRepo.findCities();
+    },
+
     createCity: async (city) => {
         return await cityRepo.createCity(city);
     },
 
-    deleteCity: async (city) => {
-        return await cityRepo.deleteCity(city);
+    deleteCity: async (cityId) => {
+        return await cityRepo.deleteCity(cityId);
     },
 
-    updateCity: async (city) => {
-        return await cityRepo.updateCity(city);
+    updateCity: async (cityId, city) => {
+        return await cityRepo.updateCity(cityId, city);
     }
 };
 

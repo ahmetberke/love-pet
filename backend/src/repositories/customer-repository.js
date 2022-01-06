@@ -2,7 +2,7 @@ import Customer from "../models/customer.js";
 
 const customerRepo = {
     findCustomerByUsername: async (username) => {
-        return await Customer.findOne({
+        return await Customer.findAll({
             where: {
                 username: username
             }
@@ -10,7 +10,7 @@ const customerRepo = {
     },
 
     findCustomerByUsernamePassword: async (username, password) => {
-        return await Customer.findOne({
+        return await Customer.findAll({
             where: {
                 username: username,
                 password: password
@@ -26,16 +26,29 @@ const customerRepo = {
         });
     },
 
+    findCustomers: async () => {
+        return await Customer.findAll();
+    },
+
     createCustomer: async (customer) => {
         return await Customer.create(customer);
     },
 
-    deleteCustomer: async (customer) => {
-        return await customer.destroy();
+    deleteCustomer: async (customerId) => {
+        return await Customer.destroy({
+            where: {
+                id: customerId
+            }
+        });
     },
 
-    updateCustomer: async (customer) => {
-        return await customer.save();
+    updateCustomer: async (customerId, customer) => {
+        return await Customer.update(customer, {
+            where: {
+                id: customerId
+            },
+            returning: true
+        });
     }
 };
 

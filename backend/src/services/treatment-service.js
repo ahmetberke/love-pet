@@ -5,16 +5,20 @@ const treatmentService = {
         return await treatmentRepo.findTreatment(treatmentId);
     },
 
+    findTreatments: async () => {
+        return await treatmentRepo.findTreatments();
+    },
+
     createTreatment: async (treatment) => {
         return await treatmentRepo.createTreatment(treatment);
     },
 
-    deleteTreatment: async (treatment) => {
-        return await treatmentRepo.deleteTreatment(treatment);
+    deleteTreatment: async (treatmentId) => {
+        return await treatmentRepo.deleteTreatment(treatmentId);
     },
 
-    updateTreatment: async (treatment) => {
-        return await treatmentRepo.updateTreatment(treatment);
+    updateTreatment: async (treatmentId, treatment) => {
+        return await treatmentRepo.updateTreatment(treatmentId, treatment);
     }
 };
 

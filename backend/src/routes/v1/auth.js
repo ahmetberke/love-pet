@@ -22,7 +22,7 @@ authRouter.post('/login', async (req, res, next) => {
     }
 });
 
-authRouter.get('/check/username', async (req, res, next) => {
+authRouter.get('/validateUsername', async (req, res, next) => {
     try{
         let [valid, msg] = await authService.hasValidUsername(req.body.username, req.query.type);
         return res.status(200).json({valid:valid, msg:msg});

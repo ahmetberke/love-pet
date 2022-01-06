@@ -1,24 +1,33 @@
-import ProductCategory from "../models/productCategory.js";
+import ProductCategory from "../models/product-category.js";
 
 const productCategoryRepo = {
     findProductCategory: async (productCategoryId) => {
-        return await ProductCategory.findByPk({
-            where: {
-                id: productCategoryId
-            }
-        });
+        return await ProductCategory.findByPk(productCategoryId);
+    },
+
+    findProductCategories: async () => {
+        return await ProductCategory.findAll();
     },
 
     createProductCategory: async (productCategory) => {
         return await ProductCategory.create(productCategory);
     },
 
-    deleteProductCategory: async (productCategory) => {
-        return await productCategory.destroy();
+    deleteProductCategory: async (productCategoryId) => {
+        return await ProductCategory.destroy({
+            where: {
+                id: productCategoryId
+            }
+        });
     },
 
-    updateProductCategory: async (productCategory) => {
-        return await productCategory.save();
+    updateProductCategory: async (productCategoryId, productCategory) => {
+        return await ProductCategory.update(productCategory, {
+            where: {
+                id: productCategoryId
+            },
+            returning: true
+        });
     }
 };
 

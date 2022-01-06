@@ -26,16 +26,29 @@ const clinicRepo = {
         });
     },
 
+    findClinics: async () => {
+        return await Clinic.findAll();
+    },
+
     createClinic: async (clinic) => {
         return await Clinic.create(clinic);
     },
 
-    deleteClinic: async (clinic) => {
-        return await clinic.destroy();
+    deleteClinic: async (clinicId) => {
+        return await Clinic.destroy({
+            where: {
+                id: clinicId
+            }
+        });
     },
 
-    updateClinic: async (clinic) => {
-        return await clinic.save();
+    updateClinic: async (clinicId, clinic) => {
+        return await Clinic.update(clinic, {
+            where: {
+                id: clinicId
+            },
+            returning: true
+        });
     }
 };
 

@@ -1,24 +1,33 @@
-import TreatmentType from "../models/treatmentType.js";
+import TreatmentType from "../models/treatment-type.js";
 
 const treatmentTypeRepo = {
     findTreatmentType: async (treatmentTypeId) => {
-        return await TreatmentType.findByPk({
-            where: {
-                id: treatmentTypeId
-            }
-        });
+        return await TreatmentType.findByPk(treatmentTypeId);
+    },
+
+    findTreatmentTypes: async () => {
+        return await TreatmentType.findAll();
     },
 
     createTreatmentType: async (treatmentType) => {
         return await TreatmentType.create(treatmentType);
     },
 
-    deleteTreatmentType: async (treatmentType) => {
-        return await treatmentType.destroy();
+    deleteTreatmentType: async (treatmentTypeId) => {
+        return await TreatmentType.destroy({
+            where: {
+                id: treatmentTypeId
+            }
+        });
     },
 
-    updateTreatmentType: async (treatmentType) => {
-        return await treatmentType.save();
+    updateTreatmentType: async (treatmentTypeId, treatmentType) => {
+        return await TreatmentType.update(treatmentType, {
+            where: {
+                id: treatmentTypeId
+            },
+            returning: true
+        });
     }
 };
 
