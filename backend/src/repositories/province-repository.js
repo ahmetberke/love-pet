@@ -1,12 +1,28 @@
 import Province from "../models/province.js";
+import City from "../models/city.js";
 
 const provinceRepo = {
     findProvince: async (provinceId) => {
         return await Province.findByPk(provinceId);
     },
 
-    findProvinces: async () => {
-        return await Province.findAll();
+    findProvinces: async (query) => {
+        if(query){
+            return await Province.findAll({
+                where: query
+            });
+        }
+        else{
+            return await Province.findAll();
+        }
+    },
+
+    findProvincesByCity: async (cityId) => {
+        return await Province.findAll({
+            where: {
+                cityId: cityId
+            }
+        });
     },
 
     createProvince: async (province) => {

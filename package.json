@@ -18,5 +18,6 @@
   "homepage": "https://github.com/aykut-bozkurt/love-pet#readme",
   "devDependencies": {
     "concurrently": "^7.0.0"
-  }
+  },
+  "dependencies": {}
 }

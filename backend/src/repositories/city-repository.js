@@ -5,8 +5,23 @@ const cityRepo = {
         return await City.findByPk(cityId);
     },
 
-    findCities: async () => {
-        return await City.findAll();
+    findCities: async (query) => {
+        if(query){
+            return await City.findAll({
+                where: query
+            });
+        }
+        else{
+            return await City.findAll();
+        }
+    },
+
+    findCitiesByCountry: async (countryId) => {
+        return await City.findAll({
+            where: {
+                countryId: countryId
+            }
+        });
     },
 
     createCity: async (city) => {

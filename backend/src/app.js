@@ -6,10 +6,12 @@ import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import cors from 'cors';
 import v1Router from "./routes/v1Router.js";
 
 let app = express();
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -21,6 +23,7 @@ app.use('/api', v1Router);
 
 // set error handler
 const jsonErrorHandler = async (err, req, res, next) => {
+    console.log(err);
     res.status(500).json({ error: err });
 }
 app.use(jsonErrorHandler)

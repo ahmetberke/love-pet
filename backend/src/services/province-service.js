@@ -5,8 +5,8 @@ const provinceService = {
         return await provinceRepo.findProvince(provinceId);
     },
 
-    findProvinces: async () => {
-        return await provinceRepo.findProvinces();
+    findProvinces: async (query) => {
+        return await provinceRepo.findProvinces(query);
     },
 
     createProvince: async (province) => {

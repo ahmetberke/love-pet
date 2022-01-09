@@ -1,5 +1,4 @@
-import Clinic from "./clinic.js";
-import Customer from "./customer.js";
+import User from "./user.js";
 import Pet from "./pet.js";
 import City from "./city.js";
 import Country from "./country.js";
@@ -12,55 +11,124 @@ import Product from "./product.js";
 import OrderProduct from "./order-product.js";
 import Breed from "./breed.js";
 import ProductCategory from "./product-category.js";
+import UserType from "./userType.js";
+import BreedType from "./breed-type.js";
 
 function createModelsAndAssociations(){
-    Country.hasMany(City);
-    City.belongsTo(Country);
+    Country.hasMany(City, {
+        foreignKey: 'countryId'
+    });
+    City.belongsTo(Country, {
+        foreignKey: 'countryId'
+    });
 
-    Comment.hasMany(Comment);
-    Comment.belongsTo(Comment);
+    Comment.hasMany(Comment, {
+        foreignKey: 'parentCommentId'
+    });
+    Comment.belongsTo(Comment, {
+        foreignKey: 'parentCommentId'
+    });
 
-    Customer.hasMany(Comment);
-    Comment.belongsTo(Customer);
+    User.hasMany(Comment, {
+        foreignKey: 'userId'
+    });
+    Comment.belongsTo(User, {
+        foreignKey: 'userId'
+    });
 
-    Clinic.hasMany(Order);
-    Order.belongsTo(Clinic);
+    User.hasMany(Order, {
+        foreignKey: 'userId'
+    });
+    Order.belongsTo(User, {
+        foreignKey: 'userId'
+    });
 
-    Customer.hasMany(Order);
-    Order.belongsTo(Customer);
+    User.hasMany(Order, {
+        foreignKey: 'userId'
+    });
+    Order.belongsTo(User, {
+        foreignKey: 'userId'
+    });
 
     Order.belongsToMany(Product, { through: 'OrderProduct' });
     Product.belongsToMany(Order, { through: 'OrderProduct' });
 
-    Customer.hasMany(Pet);
-    Pet.belongsTo(Customer);
+    User.hasMany(Pet, {
+        foreignKey: 'userId'
+    });
+    Pet.belongsTo(User, {
+        foreignKey: 'userId'
+    });
 
-    Breed.hasMany(Pet);
-    Pet.belongsTo(Breed);
+    Breed.hasMany(Pet, {
+        foreignKey: 'breedId'
+    });
+    Pet.belongsTo(Breed, {
+        foreignKey: 'breedId'
+    });
 
-    ProductCategory.hasMany(Product);
-    Product.belongsTo(ProductCategory);
+    ProductCategory.hasMany(Product, {
+        foreignKey: 'productCategoryId'
+    });
+    Product.belongsTo(ProductCategory, {
+        foreignKey: 'productCategoryId'
+    });
 
-    City.hasMany(Province);
-    Province.belongsTo(City);
+    City.hasMany(Province, {
+        foreignKey: 'cityId'
+    });
+    Province.belongsTo(City, {
+        foreignKey: 'cityId'
+    });
 
-    TreatmentType.hasMany(Treatment);
-    Treatment.belongsTo(TreatmentType);
+    TreatmentType.hasMany(Treatment, {
+        foreignKey: 'treatmentTypeId'
+    });
+    Treatment.belongsTo(TreatmentType, {
+        foreignKey: 'treatmentTypeId'
+    });
 
-    Clinic.hasMany(Treatment);
-    Treatment.belongsTo(Clinic);
+    User.hasMany(Treatment, {
+        foreignKey: 'userId'
+    });
+    Treatment.belongsTo(User, {
+        foreignKey: 'userId'
+    });
 
-    Pet.hasMany(Treatment);
-    Treatment.belongsTo(Pet);
+    Pet.hasMany(Treatment, {
+        foreignKey: 'petId'
+    });
+    Treatment.belongsTo(Pet, {
+        foreignKey: 'petId'
+    });
 
-    Treatment.hasMany(Comment);
-    Comment.belongsTo(Treatment);
+    Treatment.hasMany(Comment, {
+        foreignKey: 'treatmentId'
+    });
+    Comment.belongsTo(Treatment, {
+        foreignKey: 'treatmentId'
+    });
 
-    Country.hasMany(Clinic);
-    Clinic.belongsTo(Country);
+    Province.hasMany(User, {
+        foreignKey: 'provinceId'
+    });
+    User.belongsTo(Province, {
+        foreignKey: 'provinceId'
+    });
 
-    Country.hasMany(Customer);
-    Customer.belongsTo(Country);
+    UserType.hasMany(User, {
+        foreignKey: 'userTypeId'
+    });
+    User.belongsTo(UserType, {
+        foreignKey: 'userTypeId'
+    });
+
+    BreedType.hasMany(Breed, {
+        foreignKey: 'breedId'
+    });
+    Breed.belongsTo(BreedType, {
+        foreignKey: 'breedId'
+    });
 }
 
 export default createModelsAndAssociations;

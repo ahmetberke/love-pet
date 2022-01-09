@@ -2,9 +2,9 @@ import { Model, DataTypes } from 'sequelize';
 import sequelize from "../db/db-con.js";
 import hash from "../middleware/sha256-hasher.js";
 
-class Clinic extends Model {}
+class User extends Model {}
 
-Clinic.init({
+User.init({
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -47,7 +47,7 @@ Clinic.init({
     }
 }, {
     sequelize,
-    modelName: 'Clinic'
+    modelName: 'User'
 });
 
-export default Clinic;
+export default User;

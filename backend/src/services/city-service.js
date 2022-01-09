@@ -5,8 +5,8 @@ const cityService = {
         return await cityRepo.findCity(cityId);
     },
 
-    findCities: async () => {
-        return await cityRepo.findCities();
+    findCities: async (query) => {
+        return await cityRepo.findCities(query);
     },
 
     createCity: async (city) => {
