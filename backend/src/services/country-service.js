@@ -5,8 +5,8 @@ const countryService = {
         return await countryRepo.findCountry(countryId);
     },
 
-    findCountries: async () => {
-        return await countryRepo.findCountries();
+    findCountries: async (query) => {
+        return await countryRepo.findCountries(query);
     },
 
     createCountry: async (country) => {

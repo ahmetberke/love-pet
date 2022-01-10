@@ -1,5 +1,6 @@
 import provinceService from "../../services/province-service.js";
 import express from 'express';
+import getQueryString from "../../middleware/querystring.js";
 let provinceRouter = express.Router();
 
 provinceRouter.post('/', async (req, res, next) => {
@@ -14,7 +15,7 @@ provinceRouter.post('/', async (req, res, next) => {
 
 provinceRouter.get('/', async (req, res, next) => {
     try{
-        let provinces = await provinceService.findProvinces(req.query);
+        let provinces = await provinceService.findProvinces(getQueryString(req));
         return res.status(200).json(provinces);
     }
     catch(e){

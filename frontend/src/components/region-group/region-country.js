@@ -1,53 +1,39 @@
-import React from "react";
+import React, {useState} from "react";
 import Form from "react-bootstrap/Form";
-import regionService from "../../services/region-service";
 import RegionCity from "./region-city";
 
-class RegionCountry extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {countries: [], selectedCountryId: 'none'};
+function RegionCountry(props) {
+    const [selectedCountryId, setSelectedCountryId] = useState(-1);
+
+    const onCountryChange = (event) => {
+        let selectedCountryId = Number(event.target.value);
+        setSelectedCountryId(selectedCountryId);
+
+        props.onChange({countryId: selectedCountryId});
     }
 
-    onCountryChange = (event) => {
-        let selectedCountryId = event.target.value;
-        this.setState(prevState => {
-            return {...prevState, selectedCountryId: selectedCountryId};
-        });
+    const selectedCountry = props.countries.filter(country => country.id === selectedCountryId);
+    const selectedCities = (selectedCountryId === -1 || selectedCountry.length === 0) ? [] : selectedCountry[0].Cities;
 
-        this.props.onChange({countryId: selectedCountryId});
-    }
+    return (
+        <>
+            <Form.Group className="mb-3">
+                <Form.Select aria-label="countrySelect"
+                             onChange={onCountryChange}>
+                    <option value={-1} key={-1}>Select Country</option>
+                    {
+                        props.countries.map(country =>
+                            <option value={country.id} key={country.id}>{country.name}</option>
+                        )
+                    }
+                </Form.Select>
+            </Form.Group>
 
-    componentDidMount() {
-        regionService.getCountries()
-            .then((countries) => {
-                this.setState(prevState => ({...prevState, countries: countries}));
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
+            <RegionCity cities={selectedCities}
+                        onChange={props.onChange}/>
 
-    render() {
-        return (
-            <>
-                <Form.Group className="mb-3">
-                    <Form.Select aria-label="countrySelect" onChange={this.onCountryChange}>
-                        <option value='none'>Select Country</option>
-                        {
-                            this.state.countries.map(country =>
-                                <option value={country.id} key={country.id}>{country.name}</option>
-                            )
-                        }
-                    </Form.Select>
-                </Form.Group>
-
-                <RegionCity countryId={this.state.selectedCountryId}
-                            onChange={this.props.onChange}/>
-
-            </>
-        );
-    }
+        </>
+    );
 }
 
 export default RegionCountry;

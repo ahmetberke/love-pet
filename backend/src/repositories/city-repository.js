@@ -1,4 +1,6 @@
 import City from "../models/city.js";
+import parseOData from "odata-sequelize";
+import sequelize from "../db/db-con.js";
 
 const cityRepo = {
     findCity: async (cityId) => {
@@ -7,21 +9,12 @@ const cityRepo = {
 
     findCities: async (query) => {
         if(query){
-            return await City.findAll({
-                where: query
-            });
+            const seqQuery = parseOData(query, sequelize);
+            return await City.findAll(seqQuery);
         }
         else{
             return await City.findAll();
         }
-    },
-
-    findCitiesByCountry: async (countryId) => {
-        return await City.findAll({
-            where: {
-                countryId: countryId
-            }
-        });
     },
 
     createCity: async (city) => {

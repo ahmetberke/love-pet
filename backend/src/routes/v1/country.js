@@ -1,6 +1,6 @@
 import countryService from "../../services/country-service.js";
-import {verifyToken} from "../../middleware/auth.js";
 import express from 'express';
+import getQueryString from "../../middleware/querystring.js";
 let countryRouter = express.Router();
 
 countryRouter.post('/', async (req, res, next) => {
@@ -15,7 +15,7 @@ countryRouter.post('/', async (req, res, next) => {
 
 countryRouter.get('/', async (req, res, next) => {
     try{
-        let countries = await countryService.findCountries();
+        let countries = await countryService.findCountries(getQueryString(req));
         return res.status(200).json(countries);
     }
     catch(e){

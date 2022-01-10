@@ -1,14 +1,27 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import RegionCountry from "./region-country";
+import regionService from "../../services/region-service";
 
-class RegionGroup extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+function RegionGroup(props) {
+    const [countries, setCountries] = useState([]);
 
-    render() {
-        return <RegionCountry onChange={this.props.onChange}/>;
-    }
+    const [fetchedRegions, setFetchedRegions] = useState(false);
+    useEffect(() => {
+        if(!fetchedRegions){
+            regionService.getRegions()
+                .then((countries) => {
+                    setCountries(countries);
+                    setFetchedRegions(true);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+    });
+
+    return (
+        <RegionCountry countries={countries} onChange={props.onChange}/>
+    );
 }
 
 export default RegionGroup;

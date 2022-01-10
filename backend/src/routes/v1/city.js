@@ -1,5 +1,5 @@
 import cityService from "../../services/city-service.js";
-import {verifyToken} from "../../middleware/auth.js";
+import getQueryString from "../../middleware/querystring.js";
 import express from 'express';
 let cityRouter = express.Router();
 
@@ -15,7 +15,7 @@ cityRouter.post('/', async (req, res, next) => {
 
 cityRouter.get('/', async (req, res, next) => {
     try{
-        let cities = await cityService.findCities(req.query);
+        let cities = await cityService.findCities(getQueryString(req));
         return res.status(200).json(cities);
     }
     catch(e){

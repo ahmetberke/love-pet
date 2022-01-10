@@ -4,23 +4,13 @@ const baseURL = "http://localhost:3001/api/auth";
 
 const authService = {
     login: async (loginCredentials) => {
-        let response = axios.post(`${baseURL}/login`, loginCredentials);
-        if(response.data.msg === null){
-            return response.data.token;
-        }
-        else{
-            throw new Error(response.data.msg);
-        }
+        let response = await axios.post(`${baseURL}/login`, loginCredentials);
+        return response.data;
     },
 
     signup: async (signupCredentials) => {
         let response = await axios.post(`${baseURL}/signup`, signupCredentials);
-        if(response.data.msg === null){
-            return response.data.token;
-        }
-        else{
-            throw new Error(response.data.msg);
-        }
+        return response.data;
     },
 
     validateUsername: async (username) => {

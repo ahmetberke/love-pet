@@ -1,12 +1,26 @@
 import Country from "../models/country.js";
+import City from "../models/city.js";
+import Province from "../models/province.js";
+import parseOData from "odata-sequelize";
+import sequelize from "../db/db-con.js";
 
 const countryRepo = {
     findCountry: async (countryId) => {
         return await Country.findByPk(countryId);
     },
 
-    findCountries: async () => {
-        return await Country.findAll();
+    findCountries: async (query) => {
+        if(query){
+            const seqQuery = parseOData(query, sequelize);
+            if(query.indexOf('$expand') >= 0){
+                seqQuery["include"] = { model: City, include: {model: Province} };
+            }
+
+            return await Country.findAll(seqQuery);
+        }
+        else{
+            return await Country.findAll();
+        }
     },
 
     createCountry: async (country) => {

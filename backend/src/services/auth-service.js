@@ -14,7 +14,7 @@ const authService = {
         }
 
         let user = await userService.createUser(userPayload);
-        const token = signToken({userid: user.id});
+        const token = signToken({userId: user.id, userTypeId: user.userTypeId});
         return [200, token, null];
     },
 
@@ -24,7 +24,7 @@ const authService = {
             return [400, null, "Wrong username or password!"];
         }
 
-        const token = signToken({userid: user.id});
+        const token = signToken({userId: user.id, userTypeId: user.userTypeId});
         return [200, token, null];
     },
 

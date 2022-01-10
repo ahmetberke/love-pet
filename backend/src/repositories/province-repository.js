@@ -1,5 +1,4 @@
 import Province from "../models/province.js";
-import City from "../models/city.js";
 
 const provinceRepo = {
     findProvince: async (provinceId) => {
@@ -15,14 +14,6 @@ const provinceRepo = {
         else{
             return await Province.findAll();
         }
-    },
-
-    findProvincesByCity: async (cityId) => {
-        return await Province.findAll({
-            where: {
-                cityId: cityId
-            }
-        });
     },
 
     createProvince: async (province) => {

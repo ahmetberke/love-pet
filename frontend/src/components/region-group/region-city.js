@@ -1,66 +1,41 @@
-import React from "react";
+import React, {useState} from "react";
 import Form from "react-bootstrap/Form";
-import regionService from "../../services/region-service";
 import RegionProvince from "./region-province";
 
-class RegionCity extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {cities: [], selectedCityId: 'none'};
+function RegionCity(props) {
+    const [selectedCityId, setSelectedCityId] = useState(-1);
+
+    const onCityChange = (event) => {
+        let selectedCityId = Number(event.target.value);
+        setSelectedCityId(selectedCityId);
+
+        props.onChange({cityId: selectedCityId});
     }
 
-    onCityChange = (event) => {
-        let selectedCityId = event.target.value;
-        this.setState(prevState => {
-            return {...prevState, selectedCityId: selectedCityId};
-        });
 
-        this.props.onChange({cityId: selectedCityId});
-    }
+    const selectedCity = props.cities.filter(city => city.id === selectedCityId);
+    const selectedProvinces = (selectedCityId === -1 || selectedCity.length === 0) ? [] : selectedCity[0].Provinces;
 
-    componentDidMount() {
-        if(this.props.countryId !== 'none'){
-            regionService.getCitiesForCountry(this.props.countryId)
-                .then(cities => {
-                    this.setState(prevState => ({...prevState, cities: cities}));
-                });
-        }
-    }
+    return (
+        <>
+            <Form.Group className="mb-3">
+                <Form.Select aria-label="citySelect"
+                             onChange={onCityChange}
+                             disabled={props.cities.length === 0}>
+                    <option value={-1} key={-1}>Select City</option>
+                    {
+                        props.cities.map(city =>
+                            <option value={city.id} key={city.id}>{city.name}</option>
+                        )
+                    }
+                </Form.Select>
+            </Form.Group>
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if(prevProps.countryId !== this.props.countryId){
-            if(this.props.countryId !== 'none'){
-                regionService.getCitiesForCountry(this.props.countryId)
-                    .then(cities => {
-                        this.setState(prevState => ({...prevState, cities: cities}));
-                    });
-            }
-            else{
-                this.setState(prevState => ({cities: [], selectedCityId: 'none'}));
-            }
-        }
-    }
+            <RegionProvince provinces={selectedProvinces}
+                            onChange={props.onChange}/>
 
-    render() {
-        return (
-            <>
-                <Form.Group className="mb-3">
-                    <Form.Select aria-label="citySelect" onChange={this.onCityChange} disabled={this.props.countryId === 'none'}>
-                        <option value='none'>Select City</option>
-                        {
-                            this.state.cities.map((city) =>
-                                <option value={city.id} key={city.id}>{city.name}</option>
-                            )
-                        }
-                    </Form.Select>
-                </Form.Group>
-
-                <RegionProvince cityId={this.state.selectedCityId}
-                                onChange={this.props.onChange}/>
-
-            </>
-        );
-    }
+        </>
+    );
 }
 
 export default RegionCity;
