@@ -1,17 +1,25 @@
 import React, {useState} from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import authService from "../../services/auth-service";
 import RegionGroup from "../region-group/region-group";
-import jwt_decode from "jwt-decode";
+import {useAuth} from "../../contexts/auth-context";
+import Container from "react-bootstrap/Container";
+import {Alert, Col, Row} from "react-bootstrap";
+import OverlayTriggerWrapper from "../../overlay-trigger/overlay-trigger-wrapper";
+import Loading from "../loading/loading";
 
 function Signup(props) {
     const navigate = useNavigate();
 
+    const { userType } = useParams();
+
+    const authContext = useAuth();
+
     const [signupCredentials, setSignupCredentials] = useState({
-        userTypeId: 1,
+        userTypeId: (userType === 'clinic') ? 1 : 2,
         username: "",
         prevUsername: "",
         rePassword: "",
@@ -29,8 +37,14 @@ function Signup(props) {
         rePassword: {valid: false, msg: ''},
         phone: {valid: false, msg: ''},
         mail: {valid: false, msg: ''},
-        region: {valid: true, msg: ''}, //todo
+        address: {valid: false, msg: ''}
     });
+
+    const [signupErr, setSignupErr] = useState('');
+
+    const [addressLen, setAddressLen] = useState(0);
+
+    const [loading, setLoading] = useState(false);
 
     const validateUsername = (username) => {
         let message = '';
@@ -103,16 +117,22 @@ function Signup(props) {
         setValidation(prevState => ({...prevState, mail: {valid: message === '', msg: message}}));
     }
 
-    const validateRegion = (region) => {
+    const validateAddress = (address) => {
         let message = '';
-        if(region.countryId === -1 ||
-            region.cityId === -1 ||
-            region.provinceId === -1)
-        {
-            message = 'You should select country, city and province!';
+        if(signupCredentials.address === ''){
+            message = "Address is required!";
         }
 
-        setValidation(prevState => ({...prevState, region: {valid: message === '', msg: message}}));
+        setValidation(prevState => ({...prevState, address: {valid: message === '', msg: message}}));
+    }
+
+    const validate = () => {
+        validateUsername(signupCredentials.username);
+        validatePassword(signupCredentials.password);
+        validateRePassword(signupCredentials.rePassword);
+        validateMail(signupCredentials.mail);
+        validatePhone(signupCredentials.phone);
+        validateAddress(signupCredentials.address);
     }
 
     const onChange = (event) => {
@@ -138,18 +158,22 @@ function Signup(props) {
             case 'mail':
                 validateMail(value);
                 break;
+            case 'address':
+                setAddressLen(value.length);
+                validateAddress(value);
+                break;
         }
     }
 
     const onRegionChange = (regionChange) => {
         setRegion(prevState => ({...prevState, ...regionChange}));
-        //validateRegion(region);
     }
 
     const onSubmit = (event) => {
         event.preventDefault();
         event.stopPropagation();
 
+        validate();
         if(checkValidity()){
             const signupRequest = {
                 username: signupCredentials.username,
@@ -157,18 +181,22 @@ function Signup(props) {
                 mail: signupCredentials.mail,
                 phone: signupCredentials.phone,
                 address: signupCredentials.address,
-                userTypeId: Number(signupCredentials.userTypeId),
+                userTypeId: signupCredentials.userTypeId,
                 provinceId: region.provinceId
             };
 
+            setLoading(true);
             authService.signup(signupRequest)
                 .then(data => {
-                    console.log(jwt_decode(data.token));
-                    localStorage.setItem("authToken", data.token);
+                    authContext.login(data.token);
                     navigate('/home', {replace: true});
                 })
                 .catch(error => {
-                    console.log(error.msg);
+                    console.log(error.response.data.msg);
+                    setSignupErr(error.response.data.msg);
+                })
+                .finally(() => {
+                    setLoading(false);
                 });
         }
     };
@@ -184,115 +212,123 @@ function Signup(props) {
     }
 
     return (
-        <Card>
-            <Card.Title>Signup</Card.Title>
-            <Card.Body>
-                <Form noValidate onSubmit={onSubmit}>
-                    <Form.Group className="mb-3" controlId="signupUsername">
-                        <Form.Label>Username</Form.Label>
-                        <Form.Control type="text" placeholder="Username" name="username"
-                                      value={signupCredentials.username}
-                                      onChange={onChange}
-                                      isInvalid={validation.username.msg !== ''}/>
-                        <Form.Control.Feedback type="invalid">
-                            {validation.username.msg}
-                        </Form.Control.Feedback>
-                    </Form.Group>
+        <Container className="vh-100 d-flex justify-content-center">
+            <Row className="align-items-center" style={{position: "relative"}}>
+                <Card>
+                    <Card.Title>Signup</Card.Title>
+                    <Card.Body>
+                        <Form noValidate onSubmit={onSubmit}>
+                            <Row>
+                                <Col>
+                                    <Form.Group className="mb-3" controlId="signupUsername" style={{position: "relative"}}>
+                                        <Form.Label>Username</Form.Label>
+                                        <OverlayTriggerWrapper
+                                            msg={validation.username.msg}
+                                        >
+                                            <Form.Control type="text" placeholder="Username" name="username"
+                                                          value={signupCredentials.username}
+                                                          onChange={onChange}
+                                                          isInvalid={validation.username.msg !== ''}/>
+                                        </OverlayTriggerWrapper>
+                                    </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="signupPassword">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" name="password"
-                                      value={signupCredentials.password}
-                                      onChange={onChange}
-                                      isInvalid={validation.password.msg !== ''}/>
-                        <Form.Control.Feedback type='invalid'>
-                            { validation.password.msg }
-                        </Form.Control.Feedback>
-                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="signupPassword" style={{position: "relative"}}>
+                                        <Form.Label>Password</Form.Label>
+                                        <OverlayTriggerWrapper
+                                            msg={validation.password.msg}
+                                        >
+                                            <Form.Control type="password" placeholder="Password" name="password"
+                                                          value={signupCredentials.password}
+                                                          onChange={onChange}
+                                                          isInvalid={validation.password.msg !== ''}/>
+                                        </OverlayTriggerWrapper>
+                                    </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="signupRePassword" >
-                        <Form.Label>Confirm Password</Form.Label>
-                        <Form.Control type="password" placeholder="Confirm Password" name="rePassword"
-                                      value={signupCredentials.rePassword}
-                                      onChange={onChange}
-                                      isInvalid={validation.rePassword.msg !== ''}/>
-                        <Form.Control.Feedback type='invalid'>
-                            { validation.rePassword.msg }
-                        </Form.Control.Feedback>
-                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="signupRePassword" style={{position: "relative"}}>
+                                        <Form.Label>Confirm Password</Form.Label>
+                                        <OverlayTriggerWrapper
+                                            msg={validation.rePassword.msg}
+                                        >
+                                            <Form.Control type="password" placeholder="Confirm Password" name="rePassword"
+                                                          value={signupCredentials.rePassword}
+                                                          onChange={onChange}
+                                                          isInvalid={validation.rePassword.msg !== ''}/>
+                                        </OverlayTriggerWrapper>
+                                    </Form.Group>
+                                </Col>
+                                <Col>
+                                    <Form.Group className="mb-3" controlId="signupMail" style={{position: "relative"}}>
+                                        <Form.Label>Email</Form.Label>
+                                        <OverlayTriggerWrapper
+                                            msg={validation.mail.msg}
+                                        >
+                                            <Form.Control type="mail" placeholder="Email" name="mail"
+                                                          value={signupCredentials.mail}
+                                                          onChange={onChange}
+                                                          isInvalid={validation.mail.msg !== ''}/>
+                                        </OverlayTriggerWrapper>
+                                    </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="signupMail">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control type="mail" placeholder="Email" name="mail"
-                                      value={signupCredentials.mail}
-                                      onChange={onChange}
-                                      isInvalid={validation.mail.msg !== ''}/>
-                        <Form.Control.Feedback type='invalid'>
-                            { validation.mail.msg }
-                        </Form.Control.Feedback>
-                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="signupPhone" style={{position: "relative"}}>
+                                        <Form.Label>Phone</Form.Label>
+                                        <OverlayTriggerWrapper
+                                            msg={validation.phone.msg}
+                                        >
+                                            <Form.Control type="phone" placeholder="(xxx) xxx xxxx" name="phone"
+                                                          value={signupCredentials.phone}
+                                                          onChange={onChange}
+                                                          isInvalid={validation.phone.msg !== ''}/>
+                                        </OverlayTriggerWrapper>
+                                    </Form.Group>
+                                </Col>
+                            </Row>
 
-                    <Form.Group className="mb-3" controlId="signupPhone">
-                        <Form.Label>Phone</Form.Label>
-                        <Form.Control type="phone" placeholder="(xxx) xxx xxxx" name="phone"
-                                      value={signupCredentials.phone}
-                                      onChange={onChange}
-                                      isInvalid={validation.phone.msg !== ''}/>
-                        <Form.Control.Feedback type='invalid'>
-                            { validation.phone.msg }
-                        </Form.Control.Feedback>
-                    </Form.Group>
+                            <Row>
+                                <Form.Group className="mb-3" controlId="signupRegion">
+                                    <Form.Label>Region</Form.Label>
+                                    <Form.Control as={RegionGroup}
+                                                  name="region"
+                                                  onChange={onRegionChange}
+                                    />
+                                </Form.Group>
+                            </Row>
 
-                    <Form.Group className="mb-3" controlId="signupRegion">
-                        <Form.Label>Region</Form.Label>
-                        <Form.Control as={RegionGroup} type="input"
-                                      name="region"
-                                      onChange={onRegionChange}
-                                      isInvalid={validation.region.msg !== ''}/>
-                        <Form.Control.Feedback type='invalid'>
-                            { validation.region.msg }
-                        </Form.Control.Feedback>
-                    </Form.Group>
+                            <Row>
+                                <Form.Group className="mb-3" controlId="signupAddress" style={{position: "relative"}}>
+                                    <Form.Label>Address</Form.Label>
+                                    <OverlayTriggerWrapper
+                                        msg={validation.address.msg}
+                                    >
+                                        <Form.Control as="textarea" placeholder="Address" name="address"
+                                                      maxLength={125}
+                                                      value={signupCredentials.address}
+                                                      onChange={onChange}
+                                                      isInvalid={validation.address.msg !== ''}
+                                        />
+                                    </OverlayTriggerWrapper>
+                                    <Form.Text style={{position: "absolute", right: "25px", bottom: "0"}}>{addressLen} / 125</Form.Text>
+                                </Form.Group>
+                            </Row>
 
-                    <Form.Group className="mb-3" controlId="signupAddress">
-                        <Form.Label>Address</Form.Label>
-                        <Form.Control as="textarea" placeholder="Address" name="address"
-                            style={{ height: '100px' }}
-                            value={signupCredentials.address}
-                            onChange={onChange}
-                        />
-                    </Form.Group>
+                            <Row md={4} className="justify-content-center">
+                                <Loading loading={loading}>
+                                    <Button variant="primary" type="submit">
+                                        Signup
+                                    </Button>
+                                </Loading>
+                            </Row>
+                        </Form>
+                    </Card.Body>
+                </Card>
+            </Row  >
 
-                    <Form.Group className="mb-3" controlId="signupUserType">
-                        <Form.Label>Account Type:</Form.Label>
-                        <div key="inline-radio" className="mb-3"
-                             onChange={onChange}>
-                            <Form.Check
-                                inline
-                                defaultChecked
-                                label="clinic"
-                                value={1}
-                                name="userTypeId"
-                                type="radio"
-                                id="inline-radio-1"
-                            />
-                            <Form.Check
-                                inline
-                                label="pet owner"
-                                value={2}
-                                name="userTypeId"
-                                type="radio"
-                                id="inline-radio-2"
-                            />
-                        </div>
-                    </Form.Group>
-
-                    <Button variant="primary" type="submit">
-                        Signup
-                    </Button>
-                </Form>
-            </Card.Body>
-        </Card>
+            <Alert variant="danger" show={signupErr !== ''} onClose={() => setSignupErr('')} dismissible style={{position: "absolute", top: "0px"}}>
+                <Alert.Heading>Signup Error!</Alert.Heading>
+                <p>
+                    {signupErr}
+                </p>
+            </Alert>
+        </Container>
     );
 }
 

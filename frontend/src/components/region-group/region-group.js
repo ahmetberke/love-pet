@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import RegionCountry from "./region-country";
 import regionService from "../../services/region-service";
+import {Row} from "react-bootstrap";
 
 function RegionGroup(props) {
     const [countries, setCountries] = useState([]);
@@ -20,7 +21,9 @@ function RegionGroup(props) {
     });
 
     return (
-        <RegionCountry countries={countries} onChange={props.onChange}/>
+        <Row>
+            <RegionCountry countries={countries} onChange={props.onChange}/>
+        </Row>
     );
 }
 

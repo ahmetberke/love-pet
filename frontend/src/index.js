@@ -1,24 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Route, Routes, HashRouter} from "react-router-dom";
+import {Route, Routes, HashRouter, Navigate} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './components/home/home';
-import Header from "./components/header/header";
 import Login from "./components/login/login";
 import Signup from "./components/signup/signup";
+import PrivateRoute from "./hoc/private-route";
+import {AuthProvider} from "./contexts/auth-context";
+import Contact from "./components/contact/contact";
+import About from "./about/about";
+import Header from "./components/header/header";
 
 ReactDOM.render(
-    <HashRouter>
-        <Header></Header>
+    <AuthProvider>
+        <HashRouter>
+            <Header></Header>
 
-        <Routes>
-            <Route exact path="/" element={<Home/>} />
-            <Route path="/home" element={<Home/>} />
-            <Route path="/about" element={<Home/>} />
-            <Route path="/contact" element={<Home/>} />
-            <Route path="/login" element={<Login/>} />
-            <Route path="/signup" element={<Signup/>} />
-        </Routes>
-    </HashRouter>,
+            <Routes>
+                <Route exact path="/login" element={<Login/>} />
+                <Route exact path="/signup/:userType" element={<Signup/>} />
+                <Route exact path="/" element={<Home/>} />
+                <Route exact path="/home" element={<Home/>} />
+                <Route exact path="/about" element={<About/>} />
+                <Route exact path="/contact" element={<Contact/>} />
+                <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+        </HashRouter>
+    </AuthProvider>,
     document.getElementById('root')
 );
