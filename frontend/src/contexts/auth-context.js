@@ -1,56 +1,63 @@
-import React, { useState, useContext } from "react";
-import jwt_decode from "jwt-decode";
+import React, {useContext, useState} from 'react';
+import jwtDecode from 'jwt-decode';
 
 const AuthContext = React.createContext({
-    isAuthenticated: false,
-    login: () => {},
-    logout: () => {},
-    isExpired: () => {}
+  isAuthenticated: false,
+  login: () => {
+  },
+  logout: () => {
+  },
+  isExpired: () => {
+  },
 });
 
 export function useAuth() {
-    return useContext(AuthContext);
+  return useContext(AuthContext);
 }
 
-export const AuthProvider = ({ children }) => {
-    const isExpired = () => {
-        const token = localStorage.getItem("authToken");
-        if(token === null){
-            return true;
-        }
+export const AuthProvider = ({children}) => {
+  const isExpired = () => {
+    const token = localStorage.getItem('authToken');
+    if (token === null) {
+      return true;
+    }
 
-        const decodedToken = jwt_decode(token);
-        console.log(decodedToken);
+    const decodedToken = jwtDecode(token);
+    console.log(decodedToken);
 
-        let dateNow = new Date();
-        if(decodedToken.exp < (dateNow.getTime() / 1000)){
-            return true;
-        }
+    const dateNow = new Date();
+    if (decodedToken.exp < (dateNow.getTime() / 1000)) {
+      return true;
+    }
 
-        return false;
-    };
+    return false;
+  };
 
-    const [isAuthenticated, setAuthenticated] = useState(() => {
-        const token = localStorage.getItem("authToken");
-        if(token === null){
-            return false;
-        }
+  const [isAuthenticated, setAuthenticated] = useState(() => {
+    const token = localStorage.getItem('authToken');
+    if (token === null) {
+      return false;
+    }
 
-        return !isExpired();
-    });
-    
-    const login = (token) => {
-        localStorage.setItem("authToken", token);
-        setAuthenticated(true);
-    };
+    return !isExpired();
+  });
 
-    const logout = () => {
-        const token = localStorage.getItem("authToken");
-        if(token !== null){
-            localStorage.removeItem("authToken");
-        }
-        setAuthenticated(false);
-    };
+  const login = (token) => {
+    localStorage.setItem('authToken', token);
+    setAuthenticated(true);
+  };
 
-    return <AuthContext.Provider value={{ isAuthenticated, login, logout, isExpired }}>{children}</AuthContext.Provider>;
+  const logout = () => {
+    const token = localStorage.getItem('authToken');
+    if (token !== null) {
+      localStorage.removeItem('authToken');
+    }
+    setAuthenticated(false);
+  };
+
+  return (
+    <AuthContext.Provider value={{isAuthenticated, login, logout, isExpired}}>
+      {children}
+    </AuthContext.Provider>
+  );
 };

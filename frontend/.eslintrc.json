@@ -1,0 +1,16 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "google"
+  ],
+  "env": {
+    "browser": true,
+    "es2017": true
+  },
+  "parser": "@babel/eslint-parser",
+  "rules": {
+    "require-jsdoc": 0,
+    "react/prop-types": 0
+  }
+}

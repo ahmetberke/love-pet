@@ -1,16 +1,17 @@
-import { Model, DataTypes } from 'sequelize';
-import sequelize from "../db/db-con.js";
+import {DataTypes, Model} from 'sequelize';
+import sequelize from '../db/db-con.js';
 
-class OrderProduct extends Model {}
+class OrderProduct extends Model {
+}
 
 OrderProduct.init({
-    cost: {
-        type: DataTypes.DECIMAL,
-        allowNull: false
-    }
+  cost: {
+    type: DataTypes.DECIMAL,
+    allowNull: false,
+  },
 }, {
-    sequelize,
-    modelName: 'OrderProduct'
+  sequelize,
+  modelName: 'OrderProduct',
 });
 
 export default OrderProduct;

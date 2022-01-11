@@ -1,24 +1,25 @@
-import { Model, DataTypes } from 'sequelize';
-import sequelize from "../db/db-con.js";
+import {DataTypes, Model} from 'sequelize';
+import sequelize from '../db/db-con.js';
 
-class Treatment extends Model {}
+class Treatment extends Model {
+}
 
 Treatment.init({
-    id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  date: {
+    type: DataTypes.DATEONLY,
+    allowNull: false,
+    validate: {
+      isDate: true,
     },
-    date: {
-        type: DataTypes.DATEONLY,
-        allowNull: false,
-        validate: {
-            isDate: true
-        }
-    },
+  },
 }, {
-    sequelize,
-    modelName: 'Treatment'
+  sequelize,
+  modelName: 'Treatment',
 });
 
 export default Treatment;

@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "build": "babel-node src/bin/www.js --out-file dist/www-compiled.js",
-    "dev": "nodemon --exec babel-node -- src/bin/www.js"
+    "dev": "nodemon --exec babel-node -- src/bin/www.js",
+    "lint": "eslint \"**/*.js\""
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -23,9 +24,12 @@
   },
   "devDependencies": {
     "@babel/core": "^7.16.7",
+    "@babel/eslint-parser": "^7.16.5",
     "@babel/node": "^7.16.7",
     "@babel/plugin-transform-runtime": "^7.16.7",
     "@babel/preset-env": "^7.16.7",
+    "eslint": "^8.6.0",
+    "eslint-config-google": "^0.14.0",
     "nodemon": "^2.0.15"
   }
 }

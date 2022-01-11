@@ -1,22 +1,23 @@
-import { Model, DataTypes } from 'sequelize';
-import sequelize from "../db/db-con.js";
+import {DataTypes, Model} from 'sequelize';
+import sequelize from '../db/db-con.js';
 
-class ProductCategory extends Model {}
+class ProductCategory extends Model {
+}
 
 ProductCategory.init({
-    id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
-    },
-    name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
-    },
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
 }, {
-    sequelize,
-    modelName: 'ProductCategory'
+  sequelize,
+  modelName: 'ProductCategory',
 });
 
 export default ProductCategory;

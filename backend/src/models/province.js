@@ -1,22 +1,23 @@
-import { Model, DataTypes } from 'sequelize';
-import sequelize from "../db/db-con.js";
+import {DataTypes, Model} from 'sequelize';
+import sequelize from '../db/db-con.js';
 
-class Province extends Model {}
+class Province extends Model {
+}
 
 Province.init({
-    id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
-    },
-    name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
-    },
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
 }, {
-    sequelize,
-    modelName: 'Province'
+  sequelize,
+  modelName: 'Province',
 });
 
 export default Province;

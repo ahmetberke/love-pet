@@ -1,34 +1,34 @@
-import UserType from "../models/userType.js";
+import UserType from '../models/userType.js';
 
 const userTypeRepo = {
-    findUserType: async (userTypeId) => {
-        return await UserType.findByPk(userTypeId);
-    },
+  findUserType: async (userTypeId) => {
+    return await UserType.findByPk(userTypeId);
+  },
 
-    findUserTypes: async () => {
-        return await UserType.findAll();
-    },
+  findUserTypes: async () => {
+    return await UserType.findAll();
+  },
 
-    createUserType: async (userType) => {
-        return await UserType.create(userType);
-    },
+  createUserType: async (userType) => {
+    return await UserType.create(userType);
+  },
 
-    deleteUserType: async (userTypeId) => {
-        return await UserType.destroy({
-            where: {
-                id: userTypeId
-            }
-        });
-    },
+  deleteUserType: async (userTypeId) => {
+    return await UserType.destroy({
+      where: {
+        id: userTypeId,
+      },
+    });
+  },
 
-    updateUserType: async (userTypeId, userType) => {
-        return await UserType.update(userType, {
-            where: {
-                id: userTypeId
-            },
-            returning: true
-        });
-    }
+  updateUserType: async (userTypeId, userType) => {
+    return await UserType.update(userType, {
+      where: {
+        id: userTypeId,
+      },
+      returning: true,
+    });
+  },
 };
 
 export default userTypeRepo;

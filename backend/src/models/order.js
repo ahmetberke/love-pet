@@ -1,17 +1,18 @@
-import { Model, DataTypes } from 'sequelize';
-import sequelize from "../db/db-con.js";
+import {DataTypes, Model} from 'sequelize';
+import sequelize from '../db/db-con.js';
 
-class Order extends Model {}
+class Order extends Model {
+}
 
 Order.init({
-    id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
-    }
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
 }, {
-    sequelize,
-    modelName: 'Order'
+  sequelize,
+  modelName: 'Order',
 });
 
 export default Order;

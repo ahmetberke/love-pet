@@ -1,0 +1,15 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "google"
+  ],
+  "env": {
+    "node": true,
+    "es2017": true
+  },
+  "parser": "@babel/eslint-parser",
+  "rules": {
+    "require-jsdoc": 0,
+    "new-cap": ["error", { "capIsNewExceptions": ["Router", "Debug"] }]
+  }
+}

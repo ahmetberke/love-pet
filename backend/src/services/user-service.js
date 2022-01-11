@@ -1,33 +1,33 @@
-import userRepo from "../repositories/user-repository.js";
+import userRepo from '../repositories/user-repository.js';
 
 const userService = {
-    findUserByUsername: async (username) => {
-        return await userRepo.findUserByUsername(username);
-    },
+  findUserByUsername: async (username) => {
+    return await userRepo.findUserByUsername(username);
+  },
 
-    findUserByUsernamePassword: async (username, password) => {
-        return await userRepo.findUserByUsernamePassword(username, password);
-    },
+  findUserByUsernamePassword: async (username, password) => {
+    return await userRepo.findUserByUsernamePassword(username, password);
+  },
 
-    findUsers: async () => {
-        return await userRepo.findUsers();
-    },
+  findUsers: async () => {
+    return await userRepo.findUsers();
+  },
 
-    findUser: async (userId) => {
-        return await userRepo.findUser(userId);
-    },
+  findUser: async (userId) => {
+    return await userRepo.findUser(userId);
+  },
 
-    createUser: async (user) => {
-        return await userRepo.createUser(user);
-    },
+  createUser: async (user) => {
+    return await userRepo.createUser(user);
+  },
 
-    deleteUser: async (userId) => {
-        return await userRepo.deleteUser(userId);
-    },
+  deleteUser: async (userId) => {
+    return await userRepo.deleteUser(userId);
+  },
 
-    updateUser: async (userId, user) => {
-        return await userRepo.updateUser(userId, user);
-    }
+  updateUser: async (userId, user) => {
+    return await userRepo.updateUser(userId, user);
+  },
 };
 
 export default userService;
