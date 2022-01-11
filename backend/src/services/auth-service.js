@@ -32,7 +32,7 @@ const authService = {
       return [400, null, 'Wrong username or password!'];
     }
 
-    const token = signToken({userId: user.id, userTypeId: user.userTypeId});
+    const token = signToken({userId: user.id, userTypeId: user.userTypeId}, userPayload.rememberme);
     return [200, token, null];
   },
 

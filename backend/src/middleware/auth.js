@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken';
 import config from './config.js';
 
-export function signToken(payload) {
-  const token = jwt.sign(payload, config.token_key, {expiresIn: '2h'});
+export function signToken(payload, rememberme = false) {
+  const expirationDuration = (rememberme) ? '30d' : '3h';
+  const token = jwt.sign(payload, config.token_key, {expiresIn: expirationDuration});
   return token;
 }
 

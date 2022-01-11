@@ -220,13 +220,13 @@ function Signup(props) {
 
       setLoading(true);
       authService.signup(signupRequest).then((data) => {
+        setLoading(false);
         authContext.login(data.token);
         navigate('/home', {replace: true});
       }).catch((error) => {
+        setLoading(false);
         console.log(error.response.data.msg);
         setSignupErr(error.response.data.msg);
-      }).finally(() => {
-        setLoading(false);
       });
     }
   };
@@ -250,67 +250,59 @@ function Signup(props) {
             <Form noValidate onSubmit={onSubmit}>
               <Row>
                 <Col>
-                  <Form.Group className="mb-3" controlId="signupUsername"
-                    style={{position: 'relative'}}>
-                    <Form.Label>Username</Form.Label>
+                  <Form.FloatingLabel className="mb-3"
+                    controlId="signupUsername" style={{position: 'relative'}}
+                    label="Username">
                     <OverlayTriggerWrapper msg={validation.username.msg}>
-                      <Form.Control type="text" placeholder="Username"
-                        name="username"
+                      <Form.Control type="text" name="username"
                         value={signupCredentials.username}
                         onChange={onChange}
                         isInvalid={validation.username.msg !== ''}/>
                     </OverlayTriggerWrapper>
-                  </Form.Group>
+                  </Form.FloatingLabel>
 
-                  <Form.Group className="mb-3" controlId="signupPassword"
-                    style={{position: 'relative'}}>
-                    <Form.Label>Password</Form.Label>
+                  <Form.FloatingLabel className="mb-3"
+                    controlId="signupPassword" style={{position: 'relative'}}
+                    label="Password">
                     <OverlayTriggerWrapper msg={validation.password.msg}>
-                      <Form.Control type="password" placeholder="Password"
-                        name="password"
+                      <Form.Control type="password" name="password"
                         value={signupCredentials.password}
                         onChange={onChange}
                         isInvalid={validation.password.msg !== ''}/>
                     </OverlayTriggerWrapper>
-                  </Form.Group>
+                  </Form.FloatingLabel>
 
-                  <Form.Group className="mb-3" controlId="signupRePassword"
-                    style={{position: 'relative'}}>
-                    <Form.Label>Confirm Password</Form.Label>
+                  <Form.FloatingLabel className="mb-3"
+                    controlId="signupRePassword" style={{position: 'relative'}}
+                    label="Confirm Password">
                     <OverlayTriggerWrapper msg={validation.rePassword.msg}>
-                      <Form.Control type="password"
-                        placeholder="Confirm Password"
-                        name="rePassword"
+                      <Form.Control type="password" name="rePassword"
                         value={signupCredentials.rePassword}
                         onChange={onChange}
                         isInvalid={validation.rePassword.msg !== ''}/>
                     </OverlayTriggerWrapper>
-                  </Form.Group>
+                  </Form.FloatingLabel>
                 </Col>
                 <Col>
-                  <Form.Group className="mb-3" controlId="signupMail"
-                    style={{position: 'relative'}}>
-                    <Form.Label>Email</Form.Label>
+                  <Form.FloatingLabel className="mb-3" controlId="signupMail"
+                    style={{position: 'relative'}} label="Email">
                     <OverlayTriggerWrapper msg={validation.mail.msg}>
-                      <Form.Control type="mail" placeholder="Email"
-                        name="mail"
+                      <Form.Control type="mail" name="mail"
                         value={signupCredentials.mail}
                         onChange={onChange}
                         isInvalid={validation.mail.msg !== ''}/>
                     </OverlayTriggerWrapper>
-                  </Form.Group>
+                  </Form.FloatingLabel>
 
-                  <Form.Group className="mb-3" controlId="signupPhone"
-                    style={{position: 'relative'}}>
-                    <Form.Label>Phone</Form.Label>
+                  <Form.FloatingLabel className="mb-3" controlId="signupPhone"
+                    style={{position: 'relative'}} label="Phone">
                     <OverlayTriggerWrapper msg={validation.phone.msg}>
-                      <Form.Control type="phone" placeholder="(xxx) xxx xxxx"
-                        name="phone"
+                      <Form.Control type="phone" name="phone"
                         value={signupCredentials.phone}
                         onChange={onChange}
                         isInvalid={validation.phone.msg !== ''}/>
                     </OverlayTriggerWrapper>
-                  </Form.Group>
+                  </Form.FloatingLabel>
                 </Col>
               </Row>
 
@@ -323,12 +315,10 @@ function Signup(props) {
               </Row>
 
               <Row>
-                <Form.Group className="mb-3" controlId="signupAddress"
-                  style={{position: 'relative'}}>
-                  <Form.Label>Address</Form.Label>
+                <Form.FloatingLabel className="mb-3" controlId="signupAddress"
+                  style={{position: 'relative'}} label="Address">
                   <OverlayTriggerWrapper msg={validation.address.msg}>
-                    <Form.Control as="textarea" placeholder="Address"
-                      name="address"
+                    <Form.Control as="textarea" name="address"
                       maxLength={125}
                       value={signupCredentials.address}
                       onChange={onChange}
@@ -340,7 +330,7 @@ function Signup(props) {
                     right: '25px',
                     bottom: '0',
                   }}>{addressLen} / 125</Form.Text>
-                </Form.Group>
+                </Form.FloatingLabel>
               </Row>
 
               <Row md={4} className="justify-content-center">

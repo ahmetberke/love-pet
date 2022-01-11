@@ -14,7 +14,7 @@ function Login(props) {
   const authContext = useAuth();
 
   const [loginCredentials, setLoginCredentials] = useState(
-      {username: '', password: '', remember: false});
+      {username: '', password: '', rememberMe: false});
 
   const [loginErr, setLoginErr] = useState('');
 
@@ -35,16 +35,17 @@ function Login(props) {
     const loginRequest = {
       username: loginCredentials.username,
       password: loginCredentials.password,
+      rememberme: loginCredentials.rememberMe,
     };
 
     setLoading(true);
     authService.login(loginRequest).then((data) => {
       authContext.login(data.token);
+      setLoading(false);
       navigate('/home', {replace: true});
     }).catch((error) => {
-      setLoginErr(error.response.data.msg);
-    }).finally(() => {
       setLoading(false);
+      setLoginErr(error.response.data.msg);
     });
   };
 
@@ -56,30 +57,28 @@ function Login(props) {
           <Card.Body>
             <Form onSubmit={onSubmit}>
               <Row>
-                <Form.Group className="mb-3" controlId="loginUsername">
-                  <Form.Label>Username</Form.Label>
+                <Form.FloatingLabel className="mb-3" controlId="signinUsername"
+                  label="Username">
                   <Form.Control type="text" name="username"
-                    placeholder="Username"
                     value={loginCredentials.username}
                     onChange={onChange}/>
-                </Form.Group>
+                </Form.FloatingLabel>
               </Row>
 
               <Row>
-                <Form.Group className="mb-3" controlId="loginPassword">
-                  <Form.Label>Password</Form.Label>
+                <Form.FloatingLabel className="mb-3" controlId="signinPassword"
+                  label="Password">
                   <Form.Control type="password" name="password"
-                    placeholder="Password"
                     value={loginCredentials.password}
                     onChange={onChange}/>
-                </Form.Group>
+                </Form.FloatingLabel>
               </Row>
 
               <Row>
-                <Form.Group className="mb-3" controlId="loginRememberme">
-                  <Form.Check type="checkbox" name="remember"
+                <Form.Group className="mb-3" controlId="loginRememberMe">
+                  <Form.Check type="checkbox" name="rememberMe"
                     label="Remember me"
-                    checked={loginCredentials.remember}
+                    checked={loginCredentials.rememberMe}
                     onChange={onChange}/>
                 </Form.Group>
               </Row>
