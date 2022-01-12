@@ -1,29 +1,28 @@
 import User from '../models/user.js';
+import {Op} from 'sequelize';
 
 const userRepo = {
   findUserByUsername: async (username) => {
-    return await User.findAll({
+    return await User.findOne({
       where: {
         username: username,
       },
     });
   },
 
-  findUserByUsernamePassword: async (username, password) => {
-    return await User.findAll({
+  findUserByUsernameOrMail: async (usernameOrMail) => {
+    return await User.findOne({
       where: {
-        username: username,
-        password: password,
+        [Op.or]: {
+          username: usernameOrMail,
+          mail: usernameOrMail,
+        },
       },
     });
   },
 
   findUser: async (userId) => {
-    return await User.findByPk({
-      where: {
-        id: userId,
-      },
-    });
+    return await User.findByPk(userId);
   },
 
   findUsers: async () => {

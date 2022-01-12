@@ -148,7 +148,7 @@ function Signup(props) {
 
   const validateAddress = (address) => {
     let message = '';
-    if (signupCredentials.address === '') {
+    if (address === '') {
       message = 'Address is required!';
     }
 
@@ -287,7 +287,7 @@ function Signup(props) {
                   <Form.FloatingLabel className="mb-3" controlId="signupMail"
                     style={{position: 'relative'}} label="Email">
                     <OverlayTriggerWrapper msg={validation.mail.msg}>
-                      <Form.Control type="mail" name="mail"
+                      <Form.Control type="email" name="mail"
                         value={signupCredentials.mail}
                         onChange={onChange}
                         isInvalid={validation.mail.msg !== ''}/>

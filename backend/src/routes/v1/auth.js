@@ -21,6 +21,24 @@ authRouter.post('/login', async (req, res, next) => {
   }
 });
 
+authRouter.post('/forgetPassword', async (req, res, next) => {
+  try {
+    const [statusCode, msg] = await authService.forgetPassword(req.body);
+    return res.status(statusCode).json({msg: msg});
+  } catch (e) {
+    next(e);
+  }
+});
+
+authRouter.post('/renewPassword', async (req, res, next) => {
+  try {
+    const [statusCode, msg] = await authService.renewPassword(req.body);
+    return res.status(statusCode).json({msg: msg});
+  } catch (e) {
+    next(e);
+  }
+});
+
 authRouter.get('/validateUsername', async (req, res, next) => {
   try {
     const [valid, msg] = await authService.hasValidUsername(req.query.username);

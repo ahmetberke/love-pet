@@ -5,8 +5,8 @@ const userService = {
     return await userRepo.findUserByUsername(username);
   },
 
-  findUserByUsernamePassword: async (username, password) => {
-    return await userRepo.findUserByUsernamePassword(username, password);
+  findUserByUsernameOrMail: async (usernameOrMail) => {
+    return await userRepo.findUserByUsernameOrMail(usernameOrMail);
   },
 
   findUsers: async () => {

@@ -9,6 +9,8 @@ import {AuthProvider} from './contexts/auth-context';
 import Contact from './components/contact/contact';
 import About from './about/about';
 import Header from './components/header/header';
+import ForgetPassword from './components/forgot-password/forgot-password';
+import RenewPassword from './components/renew-password/renew-password';
 
 ReactDOM.render(
     <AuthProvider>
@@ -18,6 +20,8 @@ ReactDOM.render(
         <Routes>
           <Route exact path="/login" element={<Login/>}/>
           <Route exact path="/signup/:userType" element={<Signup/>}/>
+          <Route exact path="/forgetPassword" element={<ForgetPassword/>}/>
+          <Route exact path="/renewPassword" element={<RenewPassword/>}/>
           <Route exact path="/" element={<Home/>}/>
           <Route exact path="/home" element={<Home/>}/>
           <Route exact path="/about" element={<About/>}/>

@@ -18,6 +18,18 @@ const authService = {
         `${baseURL}/validateUsername?username=${username}`);
     return response.data;
   },
+
+  forgetPassword: async (forgetPassword) => {
+    const response = await axios.post(`${baseURL}/forgetPassword`,
+        forgetPassword);
+    return response.data;
+  },
+
+  renewPassword: async (renewPassword) => {
+    const response = await axios.post(`${baseURL}/renewPassword`,
+        renewPassword);
+    return response.data;
+  },
 };
 
 export default authService;

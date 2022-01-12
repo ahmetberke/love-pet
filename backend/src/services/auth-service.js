@@ -1,10 +1,14 @@
 import userService from './user-service.js';
+import forgetPasswordService from './forget-password-service.js';
 import hash from '../middleware/sha256-hasher.js';
+import generateUUID from '../middleware/uuid-generator.js';
 import {
   signToken,
   validatePassword,
   validateUsername,
 } from '../middleware/auth.js';
+import mailService from './mail-service.js';
+import sequelize from '../db/db-con.js';
 
 const authService = {
   signup: async (userPayload) => {
@@ -25,21 +29,79 @@ const authService = {
   },
 
   login: async (userPayload) => {
-    const user = await userService.findUserByUsernamePassword(
-        userPayload.username,
-        hash(userPayload.username + userPayload.password));
-    if (user.length === 0) {
-      return [400, null, 'Wrong username or password!'];
+    const user = await userService.findUserByUsernameOrMail(
+        userPayload.usernameOrMail);
+    if (user === null) {
+      return [400, null, 'Wrong username or mail!'];
     }
 
-    const token = signToken({userId: user.id, userTypeId: user.userTypeId}, userPayload.rememberme);
+    if (hash(user.mail + userPayload.password) !== user.password) {
+      return [400, null, 'Wrong password!'];
+    }
+
+    const token = signToken({userId: user.id, userTypeId: user.userTypeId},
+        userPayload.rememberme);
     return [200, token, null];
+  },
+
+  forgetPassword: async (userPayload) => {
+    const user = await userService.findUserByUsernameOrMail(
+        userPayload.usernameOrMail);
+    if (user === null) {
+      return [400, 'Email or username not found!'];
+    }
+
+    const uuid = generateUUID();
+    // 1 hour expiration for forget link
+    const expire = Math.round(Date.now() / 1000) + (60 * 60);
+    await forgetPasswordService.createForgetPassword(
+        {id: hash(user.id.toString() + uuid)});
+
+    await mailService.sendMail('Password Renewal',
+        `Click on the link to renew password. 
+        <a>http://localhost:3000/#/renewPassword?id=${user.id}&uuid=${uuid}</a>`,
+        user.mail);
+    return [200, 'Check your email!'];
+  },
+
+  renewPassword: async (userPayload) => {
+    const user = await userService.findUser(userPayload.userid);
+    if (user === null) {
+      return [400, 'Wrong link!'];
+    }
+
+    const forgetPassword = await forgetPasswordService.findForgetPassword(
+        hash(userPayload.userid.toString() + userPayload.uuid));
+    if (forgetPassword === null) {
+      return [400, 'Wrong link!'];
+    }
+
+    // should be renewed in 1 hours after created
+    const now = Math.round(Date.now() / 1000);
+    const createdAt = Math.round(new Date(forgetPassword.createdAt).getTime() / 1000);
+    if ((now - createdAt) > (60 * 60)) {
+      return [400, 'Link is expired!'];
+    }
+
+    try {
+      const result = await sequelize.transaction(async (t) => {
+        await userService.updateUser(userPayload.userid,
+            {password: hash(user.mail + userPayload.password)});
+
+        await forgetPasswordService.deleteForgetPassword(forgetPassword.id);
+      });
+
+      return [200, 'Password changed!'];
+    } catch (error) {
+
+      return [500, ''];
+    }
   },
 
   hasValidUsername: async (username) => {
     const user = await userService.findUserByUsername(username);
 
-    if (user.length == 0) {
+    if (user === null) {
       return validateUsername(username);
     } else {
       return [false, 'Duplicate username!'];

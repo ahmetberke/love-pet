@@ -3,7 +3,8 @@ import config from './config.js';
 
 export function signToken(payload, rememberme = false) {
   const expirationDuration = (rememberme) ? '30d' : '3h';
-  const token = jwt.sign(payload, config.token_key, {expiresIn: expirationDuration});
+  const token = jwt.sign(payload, config.token_key,
+      {expiresIn: expirationDuration});
   return token;
 }
 

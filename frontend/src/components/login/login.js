@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import {Alert, Container, Row} from 'react-bootstrap';
 import authService from '../../services/auth-service';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {useAuth} from '../../contexts/auth-context';
 import Loading from '../loading/loading';
 
@@ -14,7 +14,7 @@ function Login(props) {
   const authContext = useAuth();
 
   const [loginCredentials, setLoginCredentials] = useState(
-      {username: '', password: '', rememberMe: false});
+      {usernameOrMail: '', password: '', rememberMe: false});
 
   const [loginErr, setLoginErr] = useState('');
 
@@ -33,12 +33,13 @@ function Login(props) {
     event.stopPropagation();
 
     const loginRequest = {
-      username: loginCredentials.username,
+      usernameOrMail: loginCredentials.usernameOrMail,
       password: loginCredentials.password,
       rememberme: loginCredentials.rememberMe,
     };
 
     setLoading(true);
+    console.log(loginRequest);
     authService.login(loginRequest).then((data) => {
       authContext.login(data.token);
       setLoading(false);
@@ -58,9 +59,9 @@ function Login(props) {
             <Form onSubmit={onSubmit}>
               <Row>
                 <Form.FloatingLabel className="mb-3" controlId="signinUsername"
-                  label="Username">
-                  <Form.Control type="text" name="username"
-                    value={loginCredentials.username}
+                  label="Username or Mail">
+                  <Form.Control type="text" name="usernameOrMail"
+                    value={loginCredentials.usernameOrMail}
                     onChange={onChange}/>
                 </Form.FloatingLabel>
               </Row>
@@ -81,6 +82,12 @@ function Login(props) {
                     checked={loginCredentials.rememberMe}
                     onChange={onChange}/>
                 </Form.Group>
+              </Row>
+
+              <Row>
+                <Form.Text as={Link} to="/forgetPassword">
+                  Forgot my password
+                </Form.Text>
               </Row>
 
               <Row>

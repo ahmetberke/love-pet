@@ -16,12 +16,17 @@ User.init({
     allowNull: false,
     unique: true,
   },
+  mail: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+    validate: {
+      isEmail: true,
+    },
+  },
   password: {
     type: DataTypes.STRING,
     allowNull: false,
-    set(value) {
-      this.setDataValue('password', hash(this.username + value));
-    },
   },
   phone: {
     type: DataTypes.STRING,
@@ -30,13 +35,6 @@ User.init({
   address: {
     type: DataTypes.STRING,
     allowNull: false,
-  },
-  mail: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    validate: {
-      isEmail: true,
-    },
   },
   rating: {
     type: DataTypes.FLOAT,
@@ -47,6 +45,14 @@ User.init({
 }, {
   sequelize,
   modelName: 'User',
+});
+
+User.beforeCreate(async (user, options) => {
+  user.password = hash(user.mail + user.password);
+});
+
+User.beforeUpdate(async (user, options) => {
+  user.password = hash(user.mail + user.password);
 });
 
 export default User;
