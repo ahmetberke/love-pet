@@ -4,9 +4,5 @@ export default function getQueryString(req) {
       req.originalUrl.slice(queryIndex + 1) :
       '';
 
-  console.log(queryString);
-
-  console.log(decodeURIComponent(queryString));
-
   return decodeURIComponent(queryString);
 }

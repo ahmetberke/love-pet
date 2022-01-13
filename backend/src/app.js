@@ -1,8 +1,9 @@
 import createDb from './db/create-db';
+import winstonLogger from './middleware/winston-logger';
 import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
-import logger from 'morgan';
+import morgan from 'morgan';
 import cors from 'cors';
 import v1Router from './routes/v1Router.js';
 
@@ -12,7 +13,7 @@ async function getApp() {
   const app = express();
 
   app.use(cors());
-  app.use(logger('dev'));
+  app.use(morgan('combined', {stream: winstonLogger.stream}));
   app.use(express.json());
   app.use(express.urlencoded({extended: false}));
   app.use(cookieParser());
@@ -21,7 +22,9 @@ async function getApp() {
 
   // set error handler
   const jsonErrorHandler = async (err, req, res, next) => {
-    console.log(err);
+    winstonLogger.error(`${err.status || 500} - ${err.message} - 
+      ${req.originalUrl} - ${req.method} - ${req.ip}`);
+
     res.status(500).json({error: err});
   };
   app.use(jsonErrorHandler);

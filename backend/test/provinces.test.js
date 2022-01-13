@@ -2,9 +2,9 @@ import request from 'supertest';
 import getServer from '../src/server';
 import sequelize from '../src/db/db-con';
 
-const baseUrl = '/api/countries';
+const baseUrl = '/api/provinces';
 
-describe('Countries CRUD', () => {
+describe('Provinces CRUD', () => {
   let server = null;
   let app = null;
 
@@ -13,8 +13,8 @@ describe('Countries CRUD', () => {
     app = request(server);
   });
 
-  it('should post a country', async () => {
-    const reqBody = {id: 11, name: 'Croatia'};
+  it('should post a province', async () => {
+    const reqBody = {id: 16, name: 'Avcilar', cityId: 1};
     const res = await app.
         post(`${baseUrl}/`).
         send(reqBody);
@@ -22,48 +22,48 @@ describe('Countries CRUD', () => {
     expect(res.statusCode).toEqual(200);
   });
 
-  it('should get all countries', async () => {
+  it('should get all provinces', async () => {
     const res = await app.
         get(`${baseUrl}/`);
 
     expect(res.statusCode).toEqual(200);
 
-    const expected = [{id: 11, name: 'Croatia'}];
+    const expected = [{id: 16, name: 'Avcilar', cityId: 1}];
     expect(res.body).toEqual(expect.arrayContaining(expected));
   });
 
-  it('should get selected country', async () => {
+  it('should get selected province', async () => {
     const res = await app.
-        get(`${baseUrl}/11`);
+        get(`${baseUrl}/16`);
 
     expect(res.statusCode).toEqual(200);
 
-    const expectedResBody = {id: 11, name: 'Croatia'};
+    const expectedResBody = {id: 16, name: 'Avcilar', cityId: 1};
     expect(res.body).toEqual(expect.objectContaining(expectedResBody));
   });
 
-  it('should update a country', async () => {
-    const reqBody = {name: 'Serbia'};
+  it('should update a province', async () => {
+    const reqBody = {name: 'Beylikduzu'};
     const res = await app.
-        put(`${baseUrl}/11`).
+        put(`${baseUrl}/16`).
         send(reqBody);
 
     expect(res.statusCode).toEqual(200);
   });
 
-  it('should get selected country after update', async () => {
+  it('should get selected province after update', async () => {
     const res = await app.
-        get(`${baseUrl}/11`);
+        get(`${baseUrl}/16`);
 
     expect(res.statusCode).toEqual(200);
 
-    const expectedResBody = {id: 11, name: 'Serbia'};
+    const expectedResBody = {id: 16, name: 'Beylikduzu', cityId: 1};
     expect(res.body).toEqual(expect.objectContaining(expectedResBody));
   });
 
-  it('should delete a country', async () => {
+  it('should delete a province', async () => {
     const res = await app.
-        delete(`${baseUrl}/11`).
+        delete(`${baseUrl}/16`).
         send();
 
     expect(res.statusCode).toEqual(200);
@@ -71,7 +71,7 @@ describe('Countries CRUD', () => {
 
   it('should get not found after delete', async () => {
     const res = await app.
-        get(`${baseUrl}/11`);
+        get(`${baseUrl}/16`);
 
     expect(res.statusCode).toEqual(404);
   });

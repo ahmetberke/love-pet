@@ -11,6 +11,6 @@
   "parser": "@babel/eslint-parser",
   "rules": {
     "require-jsdoc": 0,
-    "new-cap": ["error", { "capIsNewExceptions": ["Router", "Debug"] }]
+    "new-cap": ["error", { "capIsNewExceptions": ["Router"] }]
   }
 }

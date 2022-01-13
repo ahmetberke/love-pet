@@ -2,9 +2,9 @@ import request from 'supertest';
 import getServer from '../src/server';
 import sequelize from '../src/db/db-con';
 
-const baseUrl = '/api/countries';
+const baseUrl = '/api/cities';
 
-describe('Countries CRUD', () => {
+describe('Cities CRUD', () => {
   let server = null;
   let app = null;
 
@@ -13,8 +13,8 @@ describe('Countries CRUD', () => {
     app = request(server);
   });
 
-  it('should post a country', async () => {
-    const reqBody = {id: 11, name: 'Croatia'};
+  it('should post a city', async () => {
+    const reqBody = {id: 11, name: 'Hakkari', countryId: 1};
     const res = await app.
         post(`${baseUrl}/`).
         send(reqBody);
@@ -22,28 +22,28 @@ describe('Countries CRUD', () => {
     expect(res.statusCode).toEqual(200);
   });
 
-  it('should get all countries', async () => {
+  it('should get all cities', async () => {
     const res = await app.
         get(`${baseUrl}/`);
 
     expect(res.statusCode).toEqual(200);
 
-    const expected = [{id: 11, name: 'Croatia'}];
+    const expected = [{id: 11, name: 'Hakkari', countryId: 1}];
     expect(res.body).toEqual(expect.arrayContaining(expected));
   });
 
-  it('should get selected country', async () => {
+  it('should get selected city', async () => {
     const res = await app.
         get(`${baseUrl}/11`);
 
     expect(res.statusCode).toEqual(200);
 
-    const expectedResBody = {id: 11, name: 'Croatia'};
+    const expectedResBody = {id: 11, name: 'Hakkari', countryId: 1};
     expect(res.body).toEqual(expect.objectContaining(expectedResBody));
   });
 
-  it('should update a country', async () => {
-    const reqBody = {name: 'Serbia'};
+  it('should update a city', async () => {
+    const reqBody = {name: 'Trabzon'};
     const res = await app.
         put(`${baseUrl}/11`).
         send(reqBody);
@@ -51,17 +51,17 @@ describe('Countries CRUD', () => {
     expect(res.statusCode).toEqual(200);
   });
 
-  it('should get selected country after update', async () => {
+  it('should get selected city after update', async () => {
     const res = await app.
         get(`${baseUrl}/11`);
 
     expect(res.statusCode).toEqual(200);
 
-    const expectedResBody = {id: 11, name: 'Serbia'};
+    const expectedResBody = {id: 11, name: 'Trabzon', countryId: 1};
     expect(res.body).toEqual(expect.objectContaining(expectedResBody));
   });
 
-  it('should delete a country', async () => {
+  it('should delete a city', async () => {
     const res = await app.
         delete(`${baseUrl}/11`).
         send();
