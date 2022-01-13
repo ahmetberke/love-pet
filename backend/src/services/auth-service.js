@@ -52,8 +52,6 @@ const authService = {
     }
 
     const uuid = generateUUID();
-    // 1 hour expiration for forget link
-    const expire = Math.round(Date.now() / 1000) + (60 * 60);
     await forgetPasswordService.createForgetPassword(
         {id: hash(user.id.toString() + uuid)});
 
@@ -78,13 +76,14 @@ const authService = {
 
     // should be renewed in 1 hours after created
     const now = Math.round(Date.now() / 1000);
-    const createdAt = Math.round(new Date(forgetPassword.createdAt).getTime() / 1000);
+    const createdAtTs = new Date(forgetPassword.createdAt).getTime();
+    const createdAt = Math.round(createdAtTs / 1000);
     if ((now - createdAt) > (60 * 60)) {
       return [400, 'Link is expired!'];
     }
 
     try {
-      const result = await sequelize.transaction(async (t) => {
+      await sequelize.transaction(async (t) => {
         await userService.updateUser(userPayload.userid,
             {password: hash(user.mail + userPayload.password)});
 
@@ -93,7 +92,6 @@ const authService = {
 
       return [200, 'Password changed!'];
     } catch (error) {
-
       return [500, ''];
     }
   },

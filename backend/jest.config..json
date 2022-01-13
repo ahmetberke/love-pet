@@ -1,0 +1,15 @@
+{
+  "collectCoverage": true,
+  "coveragePathIgnorePatterns": [
+    "/node_modules/"
+  ],
+  "moduleFileExtensions": [
+    "js",
+    "mjs"
+  ],
+  "transform": {
+    "^.+\\.js$": "babel-jest",
+    "^.+\\.mjs$": "babel-jest"
+  },
+  "testRegex": "((\\.|/*.)(spec))\\.js?$"
+}
