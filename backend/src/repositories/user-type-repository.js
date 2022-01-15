@@ -1,4 +1,4 @@
-import UserType from '../models/userType.js';
+import UserType from '../models/user-type.js';
 
 const userTypeRepo = {
   findUserType: async (userTypeId) => {

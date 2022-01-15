@@ -8,7 +8,7 @@ petRouter.use(verifyToken);
 petRouter.post('/', async (req, res, next) => {
   try {
     const pet = await petService.createPet(req.body);
-    return res.status(200).json(pet.toJSON());
+    return res.status(200).json(pet);
   } catch (e) {
     next(e);
   }
@@ -17,7 +17,7 @@ petRouter.post('/', async (req, res, next) => {
 petRouter.get('/', async (req, res, next) => {
   try {
     const pets = await petService.findPets();
-    return res.status(200).json(JSON.stringify(pets));
+    return res.status(200).json(pets);
   } catch (e) {
     next(e);
   }
@@ -27,7 +27,7 @@ petRouter.get('/:petId', async (req, res, next) => {
   try {
     const pet = await petService.findPet(req.params.petId);
     if (pet !== null) {
-      return res.status(200).json(pet.toJSON());
+      return res.status(200).json(pet);
     } else {
       return res.sendStatus(404);
     }
@@ -48,7 +48,7 @@ petRouter.delete('/:petId', async (req, res, next) => {
 petRouter.put('/:petId', async (req, res, next) => {
   try {
     const [, pets] = await petService.updatePet(req.params.petId, req.body);
-    return res.status(200).json(JSON.stringify(pets));
+    return res.status(200).json(pets);
   } catch (e) {
     next(e);
   }

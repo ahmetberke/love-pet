@@ -6,9 +6,14 @@ import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import cors from 'cors';
 import v1Router from './routes/v1Router.js';
+import initDbData from './db/init-data';
+import config from './middleware/config';
 
 async function getApp() {
   await createDb();
+  if (config.node_env === 'dev') {
+    await initDbData();
+  }
 
   const app = express();
 

@@ -1,6 +1,7 @@
 import request from 'supertest';
 import getServer from '../src/server';
 import sequelize from '../src/db/db-con';
+import populateDb from './populate-db';
 
 const baseUrl = '/api/cities';
 
@@ -10,6 +11,8 @@ describe('Cities CRUD', () => {
 
   beforeAll(async () => {
     server = await getServer();
+    await populateDb();
+
     app = request(server);
   });
 

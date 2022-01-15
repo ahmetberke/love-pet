@@ -1,14 +1,12 @@
 import breedTypeService from '../../services/breed-type-service.js';
-import {verifyToken} from '../../middleware/auth.js';
 import express from 'express';
 
 const breedTypeRouter = express.Router();
-breedTypeRouter.use(verifyToken);
 
 breedTypeRouter.post('/', async (req, res, next) => {
   try {
     const breedType = await breedTypeService.createBreedType(req.body);
-    return res.status(200).json(breedType.toJSON());
+    return res.status(200).json(breedType);
   } catch (e) {
     next(e);
   }
@@ -17,7 +15,7 @@ breedTypeRouter.post('/', async (req, res, next) => {
 breedTypeRouter.get('/', async (req, res, next) => {
   try {
     const breedTypes = await breedTypeService.findBreedTypes();
-    return res.status(200).json(JSON.stringify(breedTypes));
+    return res.status(200).json(breedTypes);
   } catch (e) {
     next(e);
   }
@@ -28,7 +26,7 @@ breedTypeRouter.get('/:breedTypeId', async (req, res, next) => {
     const breedType = await breedTypeService.findBreedType(
         req.params.breedTypeId);
     if (breedType !== null) {
-      return res.status(200).json(breedType.toJSON());
+      return res.status(200).json(breedType);
     } else {
       return res.sendStatus(404);
     }
@@ -50,7 +48,7 @@ breedTypeRouter.put('/:breedTypeId', async (req, res, next) => {
   try {
     const [, breedTypes] = await breedTypeService.updateBreedType(
         req.params.breedTypeId, req.body);
-    return res.status(200).json(JSON.stringify(breedTypes));
+    return res.status(200).json(breedTypes);
   } catch (e) {
     next(e);
   }

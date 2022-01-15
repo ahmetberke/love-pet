@@ -1,7 +1,11 @@
 import Country from '../models/country.js';
 import City from '../models/city.js';
 import Province from '../models/province.js';
-import UserType from '../models/userType.js';
+import UserType from '../models/user-type.js';
+import BreedType from '../models/breed-type';
+import Breed from '../models/breed';
+import User from '../models/user';
+import {signToken} from '../middleware/auth';
 
 async function initDbData() {
   await Country.bulkCreate(
@@ -27,6 +31,15 @@ async function initDbData() {
     {name: 'Marseille1', cityId: 6},
     {name: 'Marseille2', cityId: 6}]);
   await UserType.bulkCreate([{name: 'clinic'}, {name: 'customer'}]);
+  await BreedType.bulkCreate([{name: 'cat'}, {name: 'dog'}, {name: 'bird'}]);
+  await Breed.bulkCreate([{name: 'scottish', breedTypeId: 1},
+    {name: 'golden', breedTypeId: 2}, {name: 'parrot', breedTypeId: 3}]);
+  const user = await User.create({username: 'aykutovic', password: 'Tatar123',
+    mail: 'aykut___1995@hotmail.com', phone: '5393556000', address: 'Besiktas',
+    provinceId: 1, userTypeId: 2, rating: 0});
+
+  const token = signToken({userId: user.id, userTypeId: user.userTypeId});
+  return token;
 }
 
 export default initDbData;

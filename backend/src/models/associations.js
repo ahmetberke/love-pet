@@ -10,7 +10,7 @@ import Order from './order.js';
 import Product from './product.js';
 import Breed from './breed.js';
 import ProductCategory from './product-category.js';
-import UserType from './userType.js';
+import UserType from './user-type.js';
 import BreedType from './breed-type.js';
 import './order-product.js';
 import './forget-password.js';
@@ -125,10 +125,10 @@ function createModelsAndAssociations() {
   });
 
   BreedType.hasMany(Breed, {
-    foreignKey: 'breedId',
+    foreignKey: 'breedTypeId',
   });
   Breed.belongsTo(BreedType, {
-    foreignKey: 'breedId',
+    foreignKey: 'breedTypeId',
   });
 }
 

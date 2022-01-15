@@ -1,6 +1,7 @@
 import request from 'supertest';
 import getServer from '../src/server';
 import sequelize from '../src/db/db-con';
+import populateDb from './populate-db';
 
 const baseUrl = '/api/provinces';
 
@@ -10,6 +11,8 @@ describe('Provinces CRUD', () => {
 
   beforeAll(async () => {
     server = await getServer();
+    await populateDb();
+
     app = request(server);
   });
 

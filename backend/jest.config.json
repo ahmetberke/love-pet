@@ -11,6 +11,6 @@
     "^.+\\.js$": "babel-jest",
     "^.+\\.mjs$": "babel-jest"
   },
-  "testRegex": "((\\.|/*.)(spec))\\.js?$",
-  "verbose": false
+  "testRegex": "((\\.|/*.)(spec|test))\\.js?$",
+  "verbose": true
 }
