@@ -1,7 +1,7 @@
 {
-  "name": "backend",
-  "version": "0.0.0",
-  "private": true,
+  "name": "love-pet-api",
+  "version": "1.0.0",
+  "private": false,
   "scripts": {
     "clean": "rimraf dist",
     "transpile": "babel ./src -d dist",
