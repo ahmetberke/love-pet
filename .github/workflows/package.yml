@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    uses: aykut-bozkurt/love-pet/.github/workflows/test.yml
+    uses: aykut-bozkurt/love-pet/.github/workflows/test.yml@v1
 
   package:
     needs: test
