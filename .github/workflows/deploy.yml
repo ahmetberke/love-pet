@@ -16,5 +16,5 @@ jobs:
         with:
           email: "aykut___1995@hotmail.com"
           api_key: ${{ secrets.HEROKU_API_KEY }}
-          docker_compose_file: './docker-compose.heroku.yml'
+          docker_compose_file: './docker-compose.yml'
           heroku_apps: '[{"imagename":"backend_web","appname":"love_pet_api","apptype":"web"}]' # List of Docker Image name, Heroku app and Heroku app type
