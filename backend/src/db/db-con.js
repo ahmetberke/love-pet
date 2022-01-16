@@ -3,7 +3,7 @@ import config from '../middleware/config.js';
 import winstonLogger from '../middleware/winston-logger';
 
 const connectionString = 'postgres://' + config.db_username + ':' +
-    config.db_password + '@localhost:5432/love-path';
+    config.db_password + '@' + config.db_host + ':' + config.db_port + '/' + config.db_name;
 winstonLogger.info(connectionString);
 
 const sequelize = new Sequelize(connectionString, {
@@ -17,7 +17,9 @@ const sequelize = new Sequelize(connectionString, {
     freezeTableName: true,
     timestamps: false,
   },
-  logging: (config.node_env === 'test') ? false : true,
 });
+if(config.node_env === 'test'){
+  sequelize.options.logging = false;
+}
 
 export default sequelize;
