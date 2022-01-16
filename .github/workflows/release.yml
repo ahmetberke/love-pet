@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    uses: aykut-bozkurt/love-pet/.github/workflows/test.yml@d8052124a02d7c0cae9616ee7851df22432cf692
+    uses: aykut-bozkurt/love-pet/.github/workflows/test.yml@2b44d707fd2c934ca9f60a07d3c0ed4d080b09c7
 
   release:
     needs: test
