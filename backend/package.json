@@ -1,7 +1,14 @@
 {
-  "name": "love_pet_api",
+  "name": "@aykut-bozkurt/love_pet_api",
   "version": "1.0.0",
   "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/aykut-bozkurt/love-pet.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/aykut-bozkurt"
+  },
   "scripts": {
     "clean": "rimraf dist",
     "transpile": "babel ./src -d dist",
