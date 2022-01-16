@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Endpoint tests
 
 on:
   push:
@@ -39,16 +39,16 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Go to service directory
-        run: cd backend
-
       - name: Install dependencies
+        working-directory: ./backend
         run: npm ci
 
       - name: Build
+        working-directory: ./backend
         run: npm run build
 
       - name: Run tests
+        working-directory: ./backend
         run: npm test
         env:
           NODE_ENV: test
