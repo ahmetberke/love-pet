@@ -1,20 +1,21 @@
-name: Deploy
+name: Deploy to Heroku
 
-on:
-  push:
-    branches: [ master ]
+on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Deploy to Heroku
-        id: heroku
-        uses: snithyanantham/docker-compose-multiple-apps-heroku-deploy@v1.0
-        with:
-          email: "aykut___1995@hotmail.com"
-          api_key: ${{ secrets.HEROKU_API_KEY }}
-          docker_compose_file: './backend/docker-compose.yml'
-          heroku_apps: '[{"imagename":"backend_web","appname":"love_pet","apptype":"web"}]' # List of Docker Image name, Heroku app and Heroku app type
+      - uses: actions/checkout@v1
+      - name: Login to Heroku Container registry
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:login
+      - name: Build and push
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:push -a love-pet web
+      - name: Release
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:release -a love-pet web
