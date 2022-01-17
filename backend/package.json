@@ -9,6 +9,9 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/aykut-bozkurt"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "clean": "rimraf dist",
     "transpile": "babel ./src -d dist",
@@ -20,6 +23,7 @@
     "testwatch": "jest --runInBand --watchAll"
   },
   "dependencies": {
+    "@babel/runtime": "^7.16.7",
     "app-root-path": "^3.0.0",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",

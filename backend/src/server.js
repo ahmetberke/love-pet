@@ -53,13 +53,13 @@ async function getServer() {
     const port = normalizePort(config.http_server_port);
     app.set('port', port);
 
-    server.listen(port);
+    server.listen(process.env.PORT || port);
     server.on('error', onError);
     server.on('listening', onListening);
 
     return server;
   } catch (error) {
-    winstonLogger.error(error.msg);
+    winstonLogger.error(error);
 
     return null;
   }
