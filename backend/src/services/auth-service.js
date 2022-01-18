@@ -57,7 +57,7 @@ const authService = {
 
     await mailService.sendMail('Password Renewal',
         `Click on the link to renew password. 
-        <a>http://localhost:3000/#/renewPassword?id=${user.id}&uuid=${uuid}</a>`,
+        <a>https://localhost:443/#/renewPassword?id=${user.id}&uuid=${uuid}</a>`,
         user.mail);
     return [200, 'Check your email!'];
   },
