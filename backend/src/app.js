@@ -2,6 +2,7 @@ import createDb from './db/create-db';
 import winstonLogger from './middleware/winston-logger';
 import express from 'express';
 import path from 'path';
+import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import cors from 'cors';
@@ -18,6 +19,7 @@ async function getApp() {
   const app = express();
 
   app.use(cors());
+  app.use(helmet());
   app.use(morgan('combined', {stream: winstonLogger.stream}));
   app.use(express.json());
   app.use(express.urlencoded({extended: false}));

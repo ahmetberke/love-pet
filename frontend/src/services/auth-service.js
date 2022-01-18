@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://localhost:3001/api/auth';
+const baseURL = 'https://localhost:3001/api/auth';
 
 const authService = {
   login: async (loginCredentials) => {

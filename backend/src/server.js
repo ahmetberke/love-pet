@@ -3,7 +3,14 @@
 import getApp from './app.js';
 import config from './middleware/config';
 import winstonLogger from './middleware/winston-logger';
-import http from 'http';
+import https from 'https';
+import fs from 'fs';
+import appRoot from 'app-root-path';
+
+const options = {
+  key: fs.readFileSync(`${appRoot}/secrets/tls/server.key`),
+  cert: fs.readFileSync(`${appRoot}/secrets/tls/server.cert`),
+};
 
 const normalizePort = (val) => {
   const port = parseInt(val, 10);
@@ -48,7 +55,7 @@ const onListening = () => {
 async function getServer() {
   try {
     const app = await getApp();
-    const server = http.createServer(app);
+    const server = https.createServer(options, app);
 
     const port = normalizePort(config.http_server_port);
     app.set('port', port);
