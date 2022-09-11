@@ -1,3 +1,4 @@
+/* eslint linebreak-style: ["error", "windows"]*/
 import axios from 'axios';
 
 const baseURL = 'https://localhost:443/api';

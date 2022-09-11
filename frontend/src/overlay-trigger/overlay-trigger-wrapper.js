@@ -1,3 +1,4 @@
+/* eslint linebreak-style: ["error", "windows"]*/
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import React from 'react';
 

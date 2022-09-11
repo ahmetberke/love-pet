@@ -1,3 +1,4 @@
+/* eslint linebreak-style: ["error", "windows"]*/
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {HashRouter, Navigate, Route, Routes} from 'react-router-dom';

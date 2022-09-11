@@ -1,3 +1,4 @@
+/* eslint linebreak-style: ["error", "windows"]*/
 import React, {useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import Card from 'react-bootstrap/Card';

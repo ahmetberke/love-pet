@@ -1,3 +1,4 @@
+/* eslint linebreak-style: ["error", "windows"]*/
 import React, {useContext, useState} from 'react';
 import jwtDecode from 'jwt-decode';
 
