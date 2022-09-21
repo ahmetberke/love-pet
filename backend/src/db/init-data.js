@@ -37,7 +37,6 @@ async function initDbData() {
   const user = await User.create({username: 'aykutovic', password: 'Tatar123',
     mail: 'aykut___1995@hotmail.com', phone: '5393556000', address: 'Besiktas',
     provinceId: 1, userTypeId: 2, rating: 0});
-
   const token = signToken({userId: user.id, userTypeId: user.userTypeId});
   return token;
 }

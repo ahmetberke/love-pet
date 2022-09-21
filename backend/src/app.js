@@ -12,8 +12,10 @@ import config from './middleware/config';
 async function getApp() {
   await createDb();
   if (config.node_env === 'dev') {
-    await initDbData();
+      await initDbData();
+
   }
+
 
   const app = express();
 
@@ -33,7 +35,6 @@ async function getApp() {
     res.status(500).json({error: err});
   };
   app.use(jsonErrorHandler);
-
   return app;
 }
 

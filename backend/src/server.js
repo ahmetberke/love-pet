@@ -4,8 +4,10 @@ import getApp from './app.js';
 import config from './middleware/config';
 import winstonLogger from './middleware/winston-logger';
 import https from 'https';
+import http from 'http';
 import fs from 'fs';
 import appRoot from 'app-root-path';
+import { error } from 'console';
 
 const options = {
   key: fs.readFileSync(`${appRoot}/secrets/tls/server.key`),
@@ -49,27 +51,29 @@ const onError = (error) => {
 };
 
 const onListening = () => {
-  winstonLogger.info('Server started to listen...');
+  winstonLogger.info(`Server started to listen at ${process.env.PORT || normalizePort(config.http_server_port)}`);
 };
 
 async function getServer() {
-  try {
-    const app = await getApp();
-    const server = https.createServer(options, app);
+  
+  const app = await getApp();
 
-    const port = normalizePort(config.http_server_port);
-    app.set('port', port);
+  const port = normalizePort(config.http_server_port);
+  app.set('port', port);
 
-    server.listen(process.env.PORT || port);
-    server.on('error', onError);
-    server.on('listening', onListening);
-
-    return server;
-  } catch (error) {
-    winstonLogger.error(error);
-
-    return null;
+  var server;
+  
+  if (config.node_env == 'dev') {
+    server = http.createServer(app);
+  }else {
+    server = https.createServer(options, app);
   }
+
+  server.listen(process.env.PORT || port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+
+  return server
 }
 
 if (config.node_env !== 'test') {
