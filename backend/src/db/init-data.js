@@ -30,7 +30,7 @@ async function initDbData() {
     {name: 'Par2', cityId: 5},
     {name: 'Marseille1', cityId: 6},
     {name: 'Marseille2', cityId: 6}]);
-  await UserType.bulkCreate([{name: 'clinic'}, {name: 'customer'}]);
+  await UserType.bulkCreate([{name: 'admin'}, {name: 'clinic'}, {name: 'customer'}]);
   await BreedType.bulkCreate([{name: 'cat'}, {name: 'dog'}, {name: 'bird'}]);
   await Breed.bulkCreate([{name: 'scottish', breedTypeId: 1},
     {name: 'golden', breedTypeId: 2}, {name: 'parrot', breedTypeId: 3}]);

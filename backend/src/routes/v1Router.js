@@ -27,11 +27,11 @@ v1Router.use('/users', userRouter);
 v1Router.use('/comments', commentRouter);
 v1Router.use('/orders', orderRouter);
 v1Router.use('/pets', petRouter);
-v1Router.use('/productCategories', productCategoryRouter);
+v1Router.use('/product-categories', productCategoryRouter);
 v1Router.use('/products', productRouter);
 v1Router.use('/treatments', treatmentRouter);
-v1Router.use('/treatmentTypes', treatmentTypeRouter);
-v1Router.use('/userTypes', userTypeRouter);
-v1Router.use('/breedTypes', breedTypeRouter);
+v1Router.use('/treatment-types', treatmentTypeRouter);
+v1Router.use('/user-types', userTypeRouter);
+v1Router.use('/breed-types', breedTypeRouter);
 
 export default v1Router;

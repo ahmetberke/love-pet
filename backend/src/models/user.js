@@ -38,6 +38,7 @@ User.init({
   },
   rating: {
     type: DataTypes.FLOAT,
+    defaultValue : 0
   },
   token: {
     type: DataTypes.VIRTUAL,

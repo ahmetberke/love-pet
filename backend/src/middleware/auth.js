@@ -12,17 +12,28 @@ export const verifyToken = (req, res, next) => {
   try {
     const token = req.headers['authorization'];
     if (!token) {
-      return res.status(403).send('A token is required for authentication');
+      return res.status(403).send({"error":"a token is required for authentication"});
     }
 
     const decoded = jwt.verify(token, config.token_key);
     req.user = decoded;
   } catch (err) {
-    return res.status(401).send('Invalid Token');
+    return res.status(401).send({"error":"invalid token"});
   }
 
   next();
 };
+
+export const isAdmin = (req, res, next) => {
+  try {
+    if (req.user.userType.id != 1) {
+      return res.status(403).send({"error":"admin authority required"});
+    }
+  } catch(err) {
+    return res.status(403).send({"error":"something went wrong in admin authorization chech"});
+  }
+  next();
+}
 
 export const validatePassword = (value) => {
   let message = '';
@@ -58,3 +69,19 @@ export const validateUsername = (value) => {
 
   return [message === '', message];
 };
+
+export const validateEmail = (value) => {
+  let message = '';
+  if (value.search(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/) == -1) {
+    message = 'Your email is invalid';
+  }
+  return [message === '', message];
+}
+
+export const validatePhone = (value) => {
+  let message = '';
+  if (value.search(/^[1-9]\d{2}\s\d{3}\s\d{4}/) == -1) {
+    message = 'Your phone number is invalid (### ### ####)'
+  }
+  return [message === '', message];
+}

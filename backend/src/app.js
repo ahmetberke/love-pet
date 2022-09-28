@@ -13,9 +13,7 @@ async function getApp() {
   await createDb();
   if (config.node_env === 'dev') {
       await initDbData();
-
   }
-
 
   const app = express();
 

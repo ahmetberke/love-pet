@@ -51,7 +51,7 @@ function Signup(props) {
 
   const validateUsername = (username) => {
     let message = '';
-    if (username.search(/^[a-zA-Z0-9-_]{7,14}$/) === -1) {
+    if (username.search(/[a-z]/) === -1) {
       message = 'Your username should only consist alphanumeric ' +
           'characters of length between 7 and 14!';
     }

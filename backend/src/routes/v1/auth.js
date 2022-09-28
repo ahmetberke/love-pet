@@ -5,6 +5,12 @@ const authRouter = express.Router();
 
 authRouter.post('/signup', async (req, res, next) => {
   try {
+    if (req.body.provinceId == undefined) {
+      return res.status(400).send({"error":"provinceId can't be null"});
+    }
+    if (req.body.userTypeId == undefined) {
+      return res.status(400).send({"error":"userTypeId can't be null"});
+    }
     const [statusCode, token, msg] = await authService.signup(req.body);
     return res.status(statusCode).json({token: token, msg: msg});
   } catch (e) {
